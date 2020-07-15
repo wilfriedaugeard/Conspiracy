@@ -1,4 +1,3 @@
-
 class Board:
     def __init__(self):
         self.deck = [0]*15
