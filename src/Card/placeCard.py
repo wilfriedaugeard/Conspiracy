@@ -11,27 +11,35 @@ class PlaceCard:
         self.oneCoalition = oneCoalition
         self.draw = draw
         self.family = family
+        self.pos = -1
 
-        # Getters
-        def getValue(self):
-            return self.value
-        def getPearl(self):
-            return self.pearl
-        def getPtsSKey(self):
-            return self.ptsSKey
-        def getPtsGKey(self):
-            return self.ptsGKey
-        def getPtsPlace(self):
-            return self.ptsPlace
-        def getPtsPearl(self):
-            return self.ptsPearl
-        def getSameKey(self):
-            return self.sameKey
-        def getMaximum(self):
-            return self.maximum
-        def getOneCoalition(self):
-            return self.oneCoalition
-        def getDraw(self):
-            return self.draw
-        def getFamily(self):
-            return self.family
+    # Set position in the player board
+    def setPos(self, pos):
+        self.pos = pos
+    def display(self):
+        print("Place card:", self.value, "| Pearl: ", self.pearl, "| Pos:",self.pos)
+    # Getters
+    def getValue(self):
+        return self.value
+    def getPearl(self):
+        return self.pearl
+    def getPtsSKey(self):
+        return self.ptsSKey
+    def getPtsGKey(self):
+        return self.ptsGKey
+    def getPtsPlace(self):
+        return self.ptsPlace
+    def getPtsPearl(self):
+        return self.ptsPearl
+    def getSameKey(self):
+        return self.sameKey
+    def getMaximum(self):
+        return self.maximum
+    def getOneCoalition(self):
+        return self.oneCoalition
+    def getDraw(self):
+        return self.draw
+    def getFamily(self):
+        return self.family
+    def getPos(self):
+            return self.pos

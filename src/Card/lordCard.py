@@ -6,7 +6,7 @@ class LordCard:
 
 
     def display(self):
-        print(self.value, self.family, self.power)
+        print("Lord card:",self.value, self.family.name, "| pearl:",self.power.getPearl(),"key:",self.power.getKey().name)
 
     #Getter
     def getValue(self):

@@ -11,6 +11,10 @@ class Player:
             if(card != 0):
                 self.pearlPts += card.getPower().getPearl()
 
+    def display(self):
+        print(self.name)
+        print("Pearl score:",self.pearlPts)
+
     # Getters
     def getName(self):
         return self.name

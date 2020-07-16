@@ -34,3 +34,7 @@ class PlaceDeck:
     def createCard(self, card, nb):
         for i in range(nb):
             self.deck.append(card)
+    
+    # Getters
+    def getDeck(self):
+        return self.deck
