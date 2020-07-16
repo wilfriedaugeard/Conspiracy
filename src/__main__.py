@@ -1,4 +1,4 @@
-from Game.game import Game  
+from Model.Game.game import Game  
 
 def launchGame():
     game = Game()
