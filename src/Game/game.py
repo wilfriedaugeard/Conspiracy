@@ -14,27 +14,40 @@ class Game:
         self.placeDeck = PlaceDeck()
         self.lordPile  = LordPile()
         self.placePile = Pile()
-
         
 
     def playParty(self):
         while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
-            drawedCards = self.drawCard(3)
-            card = random.choice(drawedCards)
-            self.player1.getBoard().addCard(card)
-            drawedCards.remove(card) 
-            for c in drawedCards:
-                print("Card to add: %s" % c)
-                self.lordPile.addCard(c)
+            self.playerTurn(self.player1)
             self.lordPile.display()
         self.player1.computePearlPts()
 
-
-    def drawCard(self, nbCard):
+    # Draw randomly nb cards among the deck
+    def drawCard(self, nbCard, deck):
         cards = []
         for i in range(nbCard):
-            index = random.randrange(len(self.lordDeck.getDeck()))
-            card = self.lordDeck.getDeck()[index]
+            index = random.randrange(len(deck))
+            card = deck[index]
             cards.append(card)
-            self.lordDeck.getDeck().remove(card)
+            deck.remove(card)
         return cards
+
+   
+    def playerTurn(self, player):
+        # Draw lord card and choose randomly one of them
+        drawedCards = self.drawCard(3, self.lordDeck.getDeck())
+        card = random.choice(drawedCards)
+        drawedCards.remove(card)
+        player.getBoard().addCard(card)
+        self.addCardsInPile(drawedCards, self.lordPile)
+
+
+    def addCardsInPile(self, cards, pile):
+        for c in cards:
+            pile.addCard(c)
+            
+    def unlockPlace(self, player):
+        unlock = False
+        nbSilverkey = 0
+        nbGoldKey = 0
+        # ...
