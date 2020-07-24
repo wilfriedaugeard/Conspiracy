@@ -1,8 +1,11 @@
+import pygame 
+from pygame.locals import *
 from Model.Game.player import Player
 from Model.Deck.lordDeck import LordDeck
 from Model.Deck.placeDeck import PlaceDeck
 from Model.Deck.lordPile import LordPile
 from Model.Deck.pile import Pile
+from Controller import Controller
 import random, time
 
 class Game:
@@ -19,10 +22,10 @@ class Game:
 
     def playParty(self):
         self.view.initializeBoard(5, 20, 10)
+        self.view.displayDeck(self.lordDeck)
         while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
-            self.playerTurn(self.player1)
-            self.view.refresh()
-            time.sleep(0.5)
+            self.controllerTick()
+            self.viewTick()
         self.player1.computePearlPts()
 
 
@@ -43,7 +46,6 @@ class Game:
         drawedCards = self.drawCard(3, self.lordDeck.getDeck())
         card = random.choice(drawedCards)
         drawedCards.remove(card)
-        self.view.drawCardInBoard(card.getImage(), card.getValue(), player.getBoard().getPos())
         player.getBoard().addCard(card)
         card.display()
         self.addCardsInPile(drawedCards, self.lordPile)
@@ -100,3 +102,23 @@ class Game:
                 nbGoldKey = 0
             i += 1
         #board.display()
+
+
+
+    def controllerTick(self):
+        #Handle Input Events
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                return 0
+            elif event.type == MOUSEBUTTONDOWN:
+                self.playerTurn(self.player1)
+            elif event.type is MOUSEBUTTONUP:
+                print("unclick")
+        return 1
+
+
+    def viewTick(self):
+        self.view.displayDeck(self.lordDeck)  
+        self.view.displayBoard(self.player1.getBoard().getDeck())
+
+        self.view.refresh()

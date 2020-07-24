@@ -12,9 +12,9 @@ class LordDeck:
     def createDeck(self):
         i = 0
         path = "assets/images/"
-
+        ext = ".jpg"
         for color in Family:
-            image = path+str(color.name).lower()+".jpg"
+            image = path+str(color.name).lower()+ext
             self.createCard(LordCard(6, color, Power(Key.EMPTY, 0, False, True ), image), 1)
             self.createCard(LordCard(4, color, Power(Key.EMPTY, 1, False, False), image), 2)
             self.createCard(LordCard(3, color, Power(Key.EMPTY, 2, False, False), image), 2)
