@@ -3,10 +3,11 @@ from Model.Deck.lordDeck import LordDeck
 from Model.Deck.placeDeck import PlaceDeck
 from Model.Deck.lordPile import LordPile
 from Model.Deck.pile import Pile
-import random
+import random, time
 
 class Game:
-    def __init__(self):
+    def __init__(self, view):
+        self.view = view
         self.player1 = Player("Wil")
         self.player2 = Player("IA")
 
@@ -17,9 +18,14 @@ class Game:
         
 
     def playParty(self):
+        self.view.initializeBoard(5, 20, 10)
         while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
             self.playerTurn(self.player1)
+            self.view.refresh()
+            time.sleep(0.5)
         self.player1.computePearlPts()
+
+
 
     # Draw randomly nb cards among the deck
     def drawCard(self, nbCard, deck):
@@ -37,7 +43,9 @@ class Game:
         drawedCards = self.drawCard(3, self.lordDeck.getDeck())
         card = random.choice(drawedCards)
         drawedCards.remove(card)
+        self.view.drawCardInBoard(card.getImage(), card.getValue(), player.getBoard().getPos())
         player.getBoard().addCard(card)
+        card.display()
         self.addCardsInPile(drawedCards, self.lordPile)
         # Check if a place is unlocked
         self.unlockPlace(player)
@@ -91,6 +99,4 @@ class Game:
                 nbSilverKey = 0
                 nbGoldKey = 0
             i += 1
-        board.display()
-
-    
+        #board.display()

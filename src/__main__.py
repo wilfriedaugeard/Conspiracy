@@ -1,16 +1,18 @@
 import pygame, random
 from Model.Game.game import Game  
 from Controller import Controller
-
+from View.view import View
 
 def launchGame():
     # Controller.controllerTick()
-    # game = Game()
-    # game.playParty()
+    view = View(1920, 1050, "assets/images/background.jpg")
+    game = Game(view)
+    game.playParty()
 
     while 1:
         if Controller.controllerTick() == 0:
             return
+            
         
 def loadView():
     window = pygame.display.set_mode((1920, 1050))
@@ -61,7 +63,8 @@ def loadView():
 
 
     # Blit
-    lordPileImage = pygame.image.load("assets/images/lordpile.png").convert()
+    lordPileImage = pygame.image.load("assets/images/grey.jpg").convert()
+    lordPileImage = pygame.transform.scale(lordPileImage, (150,150))
     lordPileImage.set_alpha(150)
     window.blit(lordPileImage,  (spaceBorder, (height/2)-lordsize[1]))
     window.blit(textlordPile, textlordPile_rect)
@@ -83,14 +86,15 @@ def loadView():
 
     # Board
     
-    yellowLord = pygame.image.load("assets/images/yellow.png").convert()
-    blueLord = pygame.image.load("assets/images/blue.png").convert()
-    greenLord = pygame.image.load("assets/images/green.png").convert()
-    purpleLord = pygame.image.load("assets/images/yellow.png").convert()
-    redLord = pygame.image.load("assets/images/red.png").convert()
+    yellowLord = pygame.image.load("assets/images/yellow.jpg").convert()
+    blueLord = pygame.image.load("assets/images/blue.jpg").convert()
+    greenLord = pygame.image.load("assets/images/green.jpg").convert()
+    greenLord = pygame.transform.scale(greenLord, (150,150))
+    purpleLord = pygame.image.load("assets/images/purple.jpg").convert()
+    redLord = pygame.image.load("assets/images/red.jpg").convert()
     lordImage = [yellowLord, blueLord, greenLord, purpleLord, redLord]
     for card in lordImage:
-        card.set_alpha(50)
+        card.set_alpha(200)
     createViewBoard(window, 5, lordImage, lordsize, 20, 10)
 
     pygame.display.flip()
@@ -115,11 +119,10 @@ def createViewBoard(window, nbcardFirstLine, rectToBlit, sizeOfRect, vspace, hsp
         n-=1
         h+=1
 
-     
     
 if __name__ == "__main__":
     pygame.init()
     pygame.font.init()
-    loadView()
+    #loadView()
     launchGame()
 
