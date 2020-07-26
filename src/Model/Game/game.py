@@ -24,7 +24,8 @@ class Game:
         self.view.initializeBoard(5, 20, 10)
         self.view.displayDeck(self.lordDeck)
         while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
-            self.controllerTick()
+            if(self.controllerTick() == 0):
+                return
             self.viewTick()
         self.player1.computePearlPts()
 

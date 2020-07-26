@@ -9,9 +9,7 @@ def launchGame():
     game = Game(view)
     game.playParty()
 
-    while 1:
-        if Controller.controllerTick() == 0:
-            return
+   
             
         
 def loadView():
