@@ -95,16 +95,60 @@ class View:
             h+=1
 
 
-    def displayDeck(self, lordDeck):
-        lordSize = 150
-        if(len(lordDeck.getDeck()) == 0):
-            lordDeckImage = self.defaultImageCard
+    def drawDeck(self, deck, defaultImage, imageDeck, value, x, y, width, height):
+        if(len(deck) == 0):
+            image = pygame.transform.scale(defaultImage, (width,height))
         else:
-            lordDeckImage = pygame.image.load("assets/images/lordDeck.png").convert()
-            lordDeckImage = pygame.transform.scale(lordDeckImage, (lordSize,lordSize))
+            image = pygame.transform.scale(imageDeck, (width,height))
+        self.drawCard(image, value, x, y)
+
+
+    def displayDeck(self, lordDeck, placeDeck):
+        lordSize = 150
+        placeHeight = 50
+    
+        valueLordDeck = "LordDeck (" +str(len(lordDeck.getDeck()))+")"
+        valuePlaceDeck = "PlaceDeck ("+str(len(placeDeck.getDeck()))+")"
+
+        self.drawDeck(lordDeck.getDeck(), self.defaultImageCard, pygame.image.load("assets/images/lordDeck.png").convert(), valueLordDeck, self.spaceBorder, (self.height/2)-lordSize, lordSize, lordSize)
+        self.drawDeck(placeDeck.getDeck(), self.defaultImageCard, pygame.image.load("assets/images/lordDeck.png").convert(), valuePlaceDeck, self.spaceBorder, (self.height/2)+10, lordSize, placeHeight)
+
+    def drawPileInPiles(self, pile, width, height, pos, x, ystart, value):
+        y = ystart+((height+10)*pos)
+        image = pile.getImage()
+        self.drawDeck(pile.getPile(), self.defaultImageCard, image, value, x, y, width, height)
+
+    def displayPile(self, lordPile, placePile):
+        lordSize = 100
+        placeHeight = 50
+
+        pilesArray = lordPile.getPile()
+        nb = len(pilesArray)
+        ydep = (nb*lordSize) + (nb-1)*10
+        ydep /= 2
+        ydep = self.height/2 - ydep
+        x = self.width - lordSize - 10
+
+        for i in range(len(pilesArray)):
+            n = len(pilesArray[i].getPile())
+            if(n != 0):
+                valueLordPile = "("+str(n)+")"
+                self.drawPileInPiles(pilesArray[i], lordSize, lordSize, i, x, ydep, valueLordPile)
         
-        value = "LordDeck (" +str(len(lordDeck.getDeck()))+")"
-        self.drawCard(lordDeckImage, value, self.spaceBorder, (self.height/2)-lordSize)
+
+    def initializePile(self, lordPile, placePile):
+        lordSize = 100
+        placeHeight = 50
+
+        pilesArray = lordPile.getPile()
+        nb = len(pilesArray)
+        ydep = (nb*lordSize) + (nb-1)*10
+        ydep /= 2
+        ydep = self.height/2 - ydep
+        x = self.width - lordSize - 10
+
+        for i in range(len(pilesArray)):
+            self.drawPileInPiles(pilesArray[i], lordSize, lordSize, i, x, ydep, "")
 
 
 

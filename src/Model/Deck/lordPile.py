@@ -7,8 +7,11 @@ class LordPile:
         self.createPile()
 
     def createPile(self):
+        path = "assets/images/"
+        ext = ".jpg"
         for member in Family:
-            self.lordPile.append(Pile())
+            image = path+str(member.name).lower()+ext
+            self.lordPile.append(Pile(image))
 
     def addCard(self, card):
         for member in Family:

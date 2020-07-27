@@ -17,12 +17,11 @@ class Game:
         self.lordDeck  = LordDeck()
         self.placeDeck = PlaceDeck()
         self.lordPile  = LordPile()
-        self.placePile = Pile()
+        self.placePile = Pile("assets/images/placeDeck.png")
         
 
     def playParty(self):
-        self.view.initializeBoard(5, 20, 10)
-        self.view.displayDeck(self.lordDeck)
+        self.initializeView()
         while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
             if(self.controllerTick() == 0):
                 return
@@ -114,12 +113,17 @@ class Game:
             elif event.type == MOUSEBUTTONDOWN:
                 self.playerTurn(self.player1)
             elif event.type is MOUSEBUTTONUP:
-                print("unclick")
+                print("")
         return 1
 
 
-    def viewTick(self):
-        self.view.displayDeck(self.lordDeck)  
-        self.view.displayBoard(self.player1.getBoard().getDeck())
+    def initializeView(self):
+        self.view.initializeBoard(5, 20, 10)
+        self.view.initializePile(self.lordPile, self.placePile)
+        self.view.refresh()
 
+    def viewTick(self):
+        self.view.displayDeck(self.lordDeck, self.placeDeck)  
+        self.view.displayBoard(self.player1.getBoard().getDeck())
+        self.view.displayPile(self.lordPile, self.placePile)
         self.view.refresh()
