@@ -27,7 +27,7 @@ class Game:
                 if(self.controllerTick() == 0):
                     return
                 self.viewTick()
-            self.player1.computePearlPts()
+            
 
 
 
@@ -113,6 +113,8 @@ class Game:
                 return 0
             elif event.type == MOUSEBUTTONDOWN:
                 self.playerTurn(self.player1)
+                self.player1.computePearlPts()
+                self.player2.computePearlPts()
             elif event.type is MOUSEBUTTONUP:
                 print("")
         return 1
@@ -122,10 +124,12 @@ class Game:
         self.view.initializeOpponentScreen(self.player1)
         self.view.initializeBoard(5, 20, 10)
         self.view.initializePile(self.lordPile, self.placePile)
+        self.view.drawInfoBox(self.player1, self.player2)
         self.view.refresh()
 
     def viewTick(self):
         self.view.displayDeck(self.lordDeck, self.placeDeck)  
         self.view.displayBoard(self.player1.getBoard().getDeck(), self.player1.getBoard().getDeck())
         self.view.displayPile(self.lordPile, self.placePile)
+        self.view.drawInfoBox(self.player1, self.player2)
         self.view.refresh()

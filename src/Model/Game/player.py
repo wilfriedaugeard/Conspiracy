@@ -7,10 +7,13 @@ class Player:
         self.pearlPts = 0
 
     def computePearlPts(self):
+        pts = 0
         for card in self.board.getDeck():
             if(card != 0):
-                self.pearlPts += card.getPower().getPearl()
+                pts += card.getPower().getPearl()
+        self.pearlPts = pts
 
+        
     def display(self):
         print(self.name)
         print("Pearl score:",self.pearlPts)

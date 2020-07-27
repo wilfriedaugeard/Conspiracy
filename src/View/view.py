@@ -34,7 +34,8 @@ class View:
         self.window.blit(bg, (0,0))
         return bg
 
-    
+
+
     def refresh(self):
         pygame.display.flip()
 
@@ -210,7 +211,25 @@ class View:
         self.drawOppentBox(xBox, yBox, boxWidth, boxHeight)
 
 
+    def drawInfoBox(self, player1, player2):
+        
+        width = 300
+        height = 200
+        image = pygame.transform.scale( pygame.image.load("assets/images/scoreBox.png").convert(), (width, height))
 
+        valueP1 = player1.getName()+": "+str(player1.getPearlPts())+" pearls"
+        valueP2 = player2.getName()+": "+str(player2.getPearlPts())+" pearls"
+        
+        x = self.spaceBorder
+        y = self.height-self.spaceBorder-height
+
+        self.window.blit(image, (x, y))
+        ### display the number (tempory)
+        textP1 = self.myfont.render(valueP1, False, (0, 0, 0))
+        textP2 = self.myfont.render(valueP2, False, (0, 0, 0))
+       
+        self.window.blit(textP1, (x+20,y+(image.get_height()/2)-30))
+        self.window.blit(textP2, (x+20,y+(image.get_height()/2)))
 
     # Getters
     def getWindow(self):
