@@ -20,7 +20,10 @@ class View:
         self.nbcardFirstLine = 0
         self.vspace = 0
         self.hspace = 0
+        self.minivspace = 5
+        self.minihspace = 2
         self.spaceBorder = 20
+
 
 
     def createWindow(self, width, height):
@@ -43,56 +46,84 @@ class View:
         textRect = text.get_rect(center=(x+(image.get_width()/2),y+(image.get_height()/2)))
         self.window.blit(text, textRect)
 
-    def displayBoard(self, deck):
+    def displayBoard(self, deck, opponentDeck):
         for i in range(len(deck)):
             if(deck[i] != 0):
                 self.drawCardInBoard(deck[i].getImage(), deck[i].getValue(), i)
+        for i in range(len(opponentDeck)):
+            if(opponentDeck[i] != 0):
+                self.drawCardInOpponentBox(opponentDeck[i].getImage(), opponentDeck[i].getValue(), i)
 
     def drawCardInBoard(self, image, value, pos):
-        n = self.nbcardFirstLine
-        y = 0
-        index = 0
         sizeCardWidth = 150
         sizeCardHeight = 150
+        startX = self.width/2
+        startY = 200
+        self.computeCoordCardInBoard(image, value, pos, sizeCardWidth, sizeCardHeight, self.nbcardFirstLine, 0, startX, startY, self.vspace, self.hspace)
+
+    def drawCardInOpponentBox(self, image, value, pos):
+        sizeCardWidth = 25
+        sizeCardHeight = 25
+        startX = self.width-self.spaceBorder-(300/2)
+        startY = self.spaceBorder+30
+        self.computeCoordCardInBoard(image, value, pos, sizeCardWidth, sizeCardHeight, self.nbcardFirstLine, 0, startX, startY, self.minivspace, self.minihspace)
+        
+
+    def computeCoordCardInBoard(self, image, value, pos, cardWidth, cardHeight, n, h, x, y, vspace, hspace):
+        index = 0
         while n > 0:
-            startX = (self.width/2)- (sizeCardWidth*(n/2))
-            startY = 200+(y*(self.hspace+sizeCardHeight))
+            startX = x - (cardWidth*(n/2))
+            startY = y +(h*(hspace+cardHeight))
             if(n%2 == 0):
-                startX -= (self.vspace/2)+(self.vspace*((n/2) -1))
+                startX -= (vspace/2)+(vspace*((n/2) -1))
             else:
-                startX -= int(n/2)*self.vspace
-            for x in range(n):
+                startX -= int(n/2)*vspace
+            for i in range(n):
                 if(pos == index):
-                    self.drawCard(image, str(value), startX+((sizeCardWidth+self.vspace)*x), startY)
+                    image = pygame.transform.scale(image, (cardWidth, cardHeight))
+                    self.drawCard(image, str(value), startX+((cardWidth+vspace)*i), startY)
                 index+=1
             
             n-=1
-            y+=1
+            h+=1
 
+
+    def initComputeCoordCardInBoard(self, cardWidth, cardHeight, n, h, nbCard, x, y, vspace, hspace):
+        while n > 0:
+            startX = x - (cardWidth*(n/2))
+            startY = y + (h*(hspace+cardHeight))
+            if(n%2 == 0):
+                startX -= (vspace/2)+(vspace*((n/2) -1))
+            else:
+                startX -= int(n/2)*vspace
+
+            image = pygame.transform.scale(self.defaultImageCard, (cardWidth, cardHeight))
+            for i in range(n):
+                self.drawCard(image, "", startX+((cardWidth+vspace)*i), startY)
+                nbCard+=1
+            n-=1
+            h+=1
 
     def initializeBoard(self, nbcardFirstLine, vspace, hspace):
         self.nbcardFirstLine = nbcardFirstLine
         self.vspace = vspace
         self.hspace = hspace
 
-        n = nbcardFirstLine
-        h = 0
-        nbCard = 0
         sizeCardWidth = 150
         sizeCardHeight = 150
-        while n > 0:
-            startX = (self.width/2)- (sizeCardWidth*(n/2))
-            startY = 200+(h*(hspace+sizeCardHeight))
-            if(n%2 == 0):
-                startX -= (vspace/2)+(vspace*((n/2) -1))
-            else:
-                startX -= int(n/2)*vspace
+        startX = self.width/2
+        startY = 200
+        self.initComputeCoordCardInBoard(sizeCardWidth, sizeCardHeight, nbcardFirstLine, 0, 0, startX, startY, self.vspace, self.hspace)
 
-            for i in range(n):
-                self.drawCard(self.defaultImageCard, "", startX+((sizeCardWidth+vspace)*i), startY)
-                nbCard+=1
-            n-=1
-            h+=1
+        sizeCardWidth = 25
+        sizeCardHeight = 25
+        startX = self.width-self.spaceBorder-(300/2)
+        startY = self.spaceBorder+30
+        self.initComputeCoordCardInBoard(sizeCardWidth, sizeCardHeight, nbcardFirstLine, 0, 0, startX, startY, self.minivspace, self.minihspace)
+
+
+
+
 
 
     def drawDeck(self, deck, defaultImage, imageDeck, value, x, y, width, height):
@@ -177,6 +208,7 @@ class View:
         yBox = self.spaceBorder
 
         self.drawOppentBox(xBox, yBox, boxWidth, boxHeight)
+
 
 
 
