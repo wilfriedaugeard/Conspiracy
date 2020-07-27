@@ -127,7 +127,7 @@ class View:
         ydep = (nb*lordSize) + (nb-1)*10
         ydep /= 2
         ydep = self.height/2 - ydep
-        x = self.width - lordSize - 10
+        x = self.width - lordSize - self.spaceBorder
 
         for i in range(len(pilesArray)):
             n = len(pilesArray[i].getPile())
@@ -154,7 +154,7 @@ class View:
         ydep = (nb*lordSize) + (nb-1)*10
         ydep /= 2
         ydep = self.height/2 - ydep
-        x = self.width - lordSize - 10
+        x = self.width - lordSize - self.spaceBorder
 
         for i in range(len(pilesArray)):
             self.drawPileInPiles(pilesArray[i], lordSize, lordSize, i, x, ydep, "")
@@ -163,6 +163,20 @@ class View:
         y = (self.height/2)+10+75+10
 
         self.drawDeck(placePile.getPile(), self.defaultImageCard, self.defaultImageCard, "", x, y, lordSize, placeHeight)
+
+
+    def drawOppentBox(self, x, y, width, height):
+        image = pygame.transform.scale(self.background, (width,height))
+        self.drawCard(image, "", x, y)
+
+    def initializeOpponentScreen(self, player):
+        boxWidth = 300
+        boxHeight = 200
+
+        xBox = self.width-self.spaceBorder-boxWidth
+        yBox = self.spaceBorder
+
+        self.drawOppentBox(xBox, yBox, boxWidth, boxHeight)
 
 
 

@@ -121,6 +121,7 @@ class Game:
     def initializeView(self):
         self.view.initializeBoard(5, 20, 10)
         self.view.initializePile(self.lordPile, self.placePile)
+        self.view.initializeOpponentScreen(self.player1)
         self.view.refresh()
 
     def viewTick(self):
