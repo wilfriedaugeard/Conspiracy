@@ -22,11 +22,12 @@ class Game:
 
     def playParty(self):
         self.initializeView()
-        while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
-            if(self.controllerTick() == 0):
-                return
-            self.viewTick()
-        self.player1.computePearlPts()
+        while(self.controllerTick()!=0):
+            while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
+                if(self.controllerTick() == 0):
+                    return
+                self.viewTick()
+            self.player1.computePearlPts()
 
 
 
