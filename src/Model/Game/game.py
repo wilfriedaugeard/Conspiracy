@@ -123,13 +123,14 @@ class Game:
 
 
     def initializeView(self):
+        self.view.refreshBg()
+        self.view.displayTitle()
         self.view.initializeOpponentScreen(self.player1)
         self.view.initializeBoard(5, 20, 10)
         self.view.initializePile(self.lordPile, self.placePile)
-        self.view.drawInfoBox(self.player1, self.player2)
-        self.view.refresh()
 
     def viewTick(self):
+        self.initializeView()
         self.view.displayDeck(self.lordDeck, self.placeDeck)  
         self.view.displayBoard(self.player1.getBoard().getDeck(), self.player1.getBoard().getDeck())
         self.view.displayPile(self.lordPile, self.placePile)
