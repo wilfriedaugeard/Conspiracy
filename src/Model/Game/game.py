@@ -18,6 +18,7 @@ class Game:
         self.placeDeck = PlaceDeck()
         self.lordPile  = LordPile()
         self.placePile = Pile("assets/images/placeDeck.png")
+        self.playerToPlay = self.player1
         
 
     def playParty(self):
@@ -35,6 +36,8 @@ class Game:
     # Draw randomly nb cards among the deck
     def drawCard(self, nbCard, deck):
         cards = []
+        if(nbCard > len(deck)):
+            nbCard = len(deck)
         for i in range(nbCard):
             index = random.randrange(len(deck))
             card = deck[index]
@@ -45,7 +48,8 @@ class Game:
    
     def playerTurn(self, player):
         # Draw lord card and choose randomly one of them
-        drawedCards = self.drawCard(3, self.lordDeck.getDeck())
+        nbCard = random.randrange(1,4)
+        drawedCards = self.drawCard(nbCard, self.lordDeck.getDeck())
         card = random.choice(drawedCards)
         drawedCards.remove(card)
         player.getBoard().addCard(card)
@@ -114,7 +118,11 @@ class Game:
                 return 0
             elif event.type == MOUSEBUTTONDOWN:
                 if(not self.endParty):
-                    self.playerTurn(self.player1)
+                    if(self.playerToPlay == self.player1):
+                        self.playerToPlay = self.player2
+                    else:
+                        self.playerToPlay = self.player1
+                    self.playerTurn(self.playerToPlay)
                     self.player1.computePearlPts()
                     self.player2.computePearlPts()
             elif event.type is MOUSEBUTTONUP:
@@ -125,14 +133,14 @@ class Game:
     def initializeView(self):
         self.view.refreshBg()
         self.view.displayTitle()
-        self.view.initializeOpponentScreen(self.player1)
+        self.view.initializeOpponentScreen(self.player2)
         self.view.initializeBoard(5, 20, 10)
         self.view.initializePile(self.lordPile, self.placePile)
 
     def viewTick(self):
         self.initializeView()
         self.view.displayDeck(self.lordDeck, self.placeDeck)  
-        self.view.displayBoard(self.player1.getBoard().getDeck(), self.player1.getBoard().getDeck())
+        self.view.displayBoard(self.player1.getBoard().getDeck(), self.player2.getBoard().getDeck())
         self.view.displayPile(self.lordPile, self.placePile)
         self.view.drawInfoBox(self.player1, self.player2)
         self.view.refresh()

@@ -27,6 +27,8 @@ class View:
         self.minihspace = 2
         self.spaceBorder = 20
 
+        self.lastWinnerCrown = None
+
 
     '''
     INIT VIEW
@@ -265,26 +267,42 @@ class View:
         yP1 = y+(image.get_height()/2)-30
         yP2 = y+(image.get_height()/2)
 
+        # Crown image
         X = x+20
         crownImage = pygame.transform.scale( pygame.image.load("assets/images/crown.png").convert_alpha(), (20, 20))
-        if(player1.getPearlPts() >= player2.getPearlPts() and player1.getPearlPts() != 0):
-            self.window.blit(crownImage, (X, yP1-5))
-        if(player2.getPearlPts() >= player1.getPearlPts() and player2.getPearlPts() != 0):
-            self.window.blit(crownImage, (X, yP2-5))
 
+        if(player1.getPearlPts() > player2.getPearlPts()):
+                self.window.blit(crownImage, (X, yP1))
+                self.lastWinnerCrown = player1
+        
+        if(player2.getPearlPts() > player1.getPearlPts()):
+            if(self.lastWinnerCrown == player1 or self.lastWinnerCrown == None):
+                self.window.blit(crownImage, (X, yP2))
+                self.lastWinnerCrown = player2
+
+        if(player1.getPearlPts() == player2.getPearlPts() and player1.getPearlPts() != 0):
+            if(self.lastWinnerCrown == player1):
+                self.window.blit(crownImage, (X, yP2))
+            else:
+                self.window.blit(crownImage, (X, yP1))
+
+
+        # Player name
         X += 30
         textP1 = self.myfont.render(nameP1, False, (0, 0, 0))
         textP2 = self.myfont.render(nameP2, False, (0, 0, 0))
         self.window.blit(textP1, (X, yP1))
         self.window.blit(textP2, (X, yP2))
         
+        # Score
         X += width/2-30
         textP1 = self.myfont.render(scoreP1, False, (0, 0, 0))
         textP2 = self.myfont.render(scoreP2, False, (0, 0, 0))
         self.window.blit(textP1, (X, yP1))
         self.window.blit(textP2, (X, yP2))
 
-        X += 30
+        # Pearl text
+        X += 35
         textP1 = self.myfont.render(txtP1Pearl, False, (0, 0, 0))
         textP2 = self.myfont.render(txtP2Pearl, False, (0, 0, 0))
         self.window.blit(textP1, (X, yP1))
