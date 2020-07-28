@@ -13,7 +13,7 @@ class Game:
         self.view = view
         self.player1 = Player("Wil")
         self.player2 = Player("IA")
-
+        self.endParty = False
         self.lordDeck  = LordDeck()
         self.placeDeck = PlaceDeck()
         self.lordPile  = LordPile()
@@ -27,6 +27,7 @@ class Game:
                 if(self.controllerTick() == 0):
                     return
                 self.viewTick()
+            self.endParty = True
             
 
 
@@ -112,9 +113,10 @@ class Game:
             if event.type == QUIT:
                 return 0
             elif event.type == MOUSEBUTTONDOWN:
-                self.playerTurn(self.player1)
-                self.player1.computePearlPts()
-                self.player2.computePearlPts()
+                if(not self.endParty):
+                    self.playerTurn(self.player1)
+                    self.player1.computePearlPts()
+                    self.player2.computePearlPts()
             elif event.type is MOUSEBUTTONUP:
                 print("")
         return 1

@@ -215,21 +215,57 @@ class View:
         
         width = 300
         height = 200
-        image = pygame.transform.scale( pygame.image.load("assets/images/scoreBox.png").convert(), (width, height))
+        image = pygame.transform.scale( pygame.image.load("assets/images/scoreBox.jpg").convert(), (width, height))
 
-        valueP1 = player1.getName()+": "+str(player1.getPearlPts())+" pearls"
-        valueP2 = player2.getName()+": "+str(player2.getPearlPts())+" pearls"
-        
         x = self.spaceBorder
         y = self.height-self.spaceBorder-height
-
         self.window.blit(image, (x, y))
-        ### display the number (tempory)
-        textP1 = self.myfont.render(valueP1, False, (0, 0, 0))
-        textP2 = self.myfont.render(valueP2, False, (0, 0, 0))
-       
-        self.window.blit(textP1, (x+20,y+(image.get_height()/2)-30))
-        self.window.blit(textP2, (x+20,y+(image.get_height()/2)))
+
+        # Text
+        nameP1 = player1.getName()+":"
+        nameP2 = player2.getName()+":"
+        scoreP1 = str(player1.getPearlPts())
+        scoreP2 = str(player2.getPearlPts())
+        txtP1Pearl = "pearl" 
+        txtP2Pearl = "pearl"
+
+
+        if(player1.getPearlPts() > 1):
+            txtP1Pearl += "s"
+        if(player2.getPearlPts() > 1):
+            txtP2Pearl += "s" 
+
+        yP1 = y+(image.get_height()/2)-30
+        yP2 = y+(image.get_height()/2)
+
+        X = x+20
+        crownImage = pygame.transform.scale( pygame.image.load("assets/images/crown.png").convert_alpha(), (20, 20))
+        if(player1.getPearlPts() >= player2.getPearlPts() and player1.getPearlPts() != 0):
+            self.window.blit(crownImage, (X, yP1-5))
+        if(player2.getPearlPts() >= player1.getPearlPts() and player2.getPearlPts() != 0):
+            self.window.blit(crownImage, (X, yP2-5))
+
+        X += 30
+        textP1 = self.myfont.render(nameP1, False, (0, 0, 0))
+        textP2 = self.myfont.render(nameP2, False, (0, 0, 0))
+        self.window.blit(textP1, (X, yP1))
+        self.window.blit(textP2, (X, yP2))
+        
+        X += width/2-30
+        textP1 = self.myfont.render(scoreP1, False, (0, 0, 0))
+        textP2 = self.myfont.render(scoreP2, False, (0, 0, 0))
+        self.window.blit(textP1, (X, yP1))
+        self.window.blit(textP2, (X, yP2))
+
+        X += 30
+        textP1 = self.myfont.render(txtP1Pearl, False, (0, 0, 0))
+        textP2 = self.myfont.render(txtP2Pearl, False, (0, 0, 0))
+        self.window.blit(textP1, (X, yP1))
+        self.window.blit(textP2, (X, yP2))
+
+
+
+
 
     # Getters
     def getWindow(self):
