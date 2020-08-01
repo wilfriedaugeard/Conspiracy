@@ -119,6 +119,7 @@ class Game:
 
     def initializeClick(self):
         self.lordDeck.setIsClick(False)
+        self.view.setChoiceNumber(False)
         self.placeDeck.setIsClick(False)
         for pile in self.lordPile.getPile():
             pile.setIsClick(False)
@@ -127,6 +128,7 @@ class Game:
     def onClick(self):
         if self.lordDeck.getRect().collidepoint(pygame.mouse.get_pos()):
             self.lordDeck.setIsClick(True)
+            self.view.setChoiceNumber(True)
         elif self.placeDeck.getRect().collidepoint(pygame.mouse.get_pos()):
             self.placeDeck.setIsClick(True)
         elif self.placePile.getRect().collidepoint(pygame.mouse.get_pos()):
@@ -177,6 +179,7 @@ class Game:
         self.view.initializeBoard(5, 20, 10)
         self.view.initializePile(self.lordPile, self.placePile)
         self.view.initializeDecks(self.lordDeck, self.placeDeck)
+        self.view.drawChoiceNumber(self.lordDeck)
 
     def viewTick(self):
         self.initializeView()

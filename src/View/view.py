@@ -16,6 +16,9 @@ class View:
         self.defaultImageCard = pygame.image.load("assets/images/grey.jpg").convert()
         self.defaultImageCard = pygame.transform.scale(self.defaultImageCard, (150, 150))
         self.defaultImageCard.set_alpha(40) 
+
+        self.silverKeyImage = pygame.image.load("assets/images/silverKey.png").convert_alpha()
+        self.goldKeyImage = pygame.image.load("assets/images/goldKey.png").convert_alpha()
     
     
         self.refresh()
@@ -29,6 +32,10 @@ class View:
 
         self.lastWinnerCrown = None
 
+        self.oneMiniBoxRect = None
+        self.twoMiniBoxRect = None
+        self.threeMiniBoxRect = None 
+        self.showChoiceNumber = False
 
     '''
     INIT VIEW
@@ -108,6 +115,21 @@ class View:
                 if(pos == index):
                     image = pygame.transform.scale(image, (cardWidth, cardHeight))
                     self.drawCard(image, str(value), startX+((cardWidth+vspace)*i), startY, self.myfont)
+                    # Keys
+                    border = 5
+                    if(cardWidth < 30):
+                        border = 2
+                    heightKey = int(cardWidth/3)
+                    widthKey = int(heightKey/2)
+                    x = startX+((cardWidth+vspace)*i)+cardWidth-widthKey-border
+                    y = startY+cardHeight-heightKey-border
+                    if(value == 1):
+                        silverKeyImage = pygame.transform.scale(self.silverKeyImage, (widthKey, heightKey))
+                        self.window.blit(silverKeyImage, (x, y))
+                    if(value == 2):
+                        goldKeyImage = pygame.transform.scale(self.goldKeyImage, (widthKey, heightKey))
+                        self.window.blit(goldKeyImage, (x, y))
+
                 index+=1
             
             n-=1
@@ -175,7 +197,6 @@ class View:
         y = ystart+((height+10)*pos)
         image = pile.getImage()
         pile.initView(self.window, self.myfont2, x, y, width, height, self.defaultImageCard, image)
-        #self.drawDeck(pile.getPile(), self.defaultImageCard, image, value, x, y, width, height)
 
     def displayPile(self, lordPile, placePile):
         for pile in lordPile.getPile():
@@ -287,6 +308,25 @@ class View:
         textP2 = self.myfont.render(txtP2Pearl, False, (0, 0, 0))
         self.window.blit(textP1, (X, yP1))
         self.window.blit(textP2, (X, yP2))
+
+
+    '''
+    Choice number
+    '''
+    def drawChoiceNumber(self, lordDeck):
+        width = 50
+        height = 50
+        image = pygame.transform.scale(self.defaultImageCard, (width, height))
+        image.set_alpha(200)
+
+        x = self.spaceBorder + 150 + 10
+        y = (self.height/2) - 150
+
+        if(self.showChoiceNumber):
+            self.window.blit(image, (x, y))
+
+    def setChoiceNumber(self, value):
+        self.showChoiceNumber = value
 
 
 

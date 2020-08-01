@@ -82,3 +82,5 @@ class LordDeck:
         return self.deck
     def getRect(self):
         return self.rect
+    def getIsClick(self):
+        return self.isClick
