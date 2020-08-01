@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 class View:
     
     def __init__(self, width, height, backgroundLocation):
@@ -129,7 +130,6 @@ class View:
                     if(value == 2):
                         goldKeyImage = pygame.transform.scale(self.goldKeyImage, (widthKey, heightKey))
                         self.window.blit(goldKeyImage, (x, y))
-
                 index+=1
             
             n-=1
@@ -317,13 +317,50 @@ class View:
         width = 50
         height = 50
         image = pygame.transform.scale(self.defaultImageCard, (width, height))
-        image.set_alpha(200)
+        image.set_alpha(150)
 
-        x = self.spaceBorder + 150 + 10
+        border = 8
+        x = self.spaceBorder + 150 + border
         y = (self.height/2) - 150
+        borderRect = 3
+        color = (241, 231, 209)
 
         if(self.showChoiceNumber):
+            self.oneMiniBoxRect = Rect(x-borderRect, y-borderRect, image.get_width()+2*borderRect, image.get_height()+2*borderRect)
+            pygame.draw.rect(self.window, color, self.oneMiniBoxRect)
             self.window.blit(image, (x, y))
+            ### display the number (tempory)
+            text = self.myfont2.render("1", False, (0, 0, 0))
+            textRect = text.get_rect(center=(x+(image.get_width()/2),y+(image.get_height()/2)))
+            self.window.blit(text, textRect)
+            
+            x += width+border
+            imageCopy = image
+            if(len(lordDeck.getDeck()) > 1):
+                self.twoMiniBoxRect = Rect(x-borderRect, y-borderRect, image.get_width()+2*borderRect, image.get_height()+2*borderRect)
+                pygame.draw.rect(self.window, color, self.twoMiniBoxRect)
+            else:
+                imageCopy.set_alpha(60)
+            self.window.blit(imageCopy, (x, y))
+            ### display the number (tempory)
+            text = self.myfont2.render("2", False, (0, 0, 0))
+            textRect = text.get_rect(center=(x+(image.get_width()/2),y+(image.get_height()/2)))
+            self.window.blit(text, textRect)
+
+            x += width+border
+            imageCopy = image
+            if(len(lordDeck.getDeck()) > 2):
+                self.threeMiniBoxRect = Rect(x-borderRect, y-borderRect, image.get_width()+2*borderRect, image.get_height()+2*borderRect)
+                pygame.draw.rect(self.window, color, self.threeMiniBoxRect)
+            else:
+                imageCopy.set_alpha(60)
+            self.window.blit(imageCopy, (x, y))
+            ### display the number (tempory)
+            text = self.myfont2.render("3", False, (0, 0, 0))
+            textRect = text.get_rect(center=(x+(image.get_width()/2),y+(image.get_height()/2)))
+            self.window.blit(text, textRect)
+                
+
 
     def setChoiceNumber(self, value):
         self.showChoiceNumber = value
@@ -339,3 +376,11 @@ class View:
         return self.width
     def getHeight(self):
         return self.height
+    def getOneRect(self):
+        return self.oneMiniBoxRect
+    def getTwoRect(self):
+        return self.twoMiniBoxRect
+    def getThreeRect(self):
+        return self.threeMiniBoxRect
+    def getChoiceNb(self):
+        return self.showChoiceNumber

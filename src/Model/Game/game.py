@@ -57,7 +57,11 @@ class Game:
    
     def playerTurn(self, player):
         # Draw lord card and choose randomly one of them
-        nbCard = random.randrange(1,4)
+        if(player.getNbCardChosen() == 0):
+            nbCard = random.randrange(1,4)
+        else:
+            nbCard = player.getNbCardChosen()
+            print(nbCard)
         drawedCards = self.drawCard(nbCard, self.lordDeck.getDeck())
         card = random.choice(drawedCards)
         drawedCards.remove(card)
@@ -117,7 +121,16 @@ class Game:
             i += 1
         #board.display()
 
-    def initializeClick(self):
+    def initializeClick(self, player):
+        if self.view.getChoiceNb() and self.view.getOneRect().collidepoint(pygame.mouse.get_pos()):
+            player.setNbCardChosen(1)
+            self.play()
+        elif self.view.getChoiceNb() and self.view.getTwoRect().collidepoint(pygame.mouse.get_pos()):
+            player.setNbCardChosen(2)
+            self.play()
+        elif self.view.getChoiceNb() and self.view.getThreeRect().collidepoint(pygame.mouse.get_pos()):
+            player.setNbCardChosen(3)
+            self.play()
         self.lordDeck.setIsClick(False)
         self.view.setChoiceNumber(False)
         self.placeDeck.setIsClick(False)
@@ -125,10 +138,17 @@ class Game:
             pile.setIsClick(False)
         self.placePile.setIsClick(False)
 
-    def onClick(self):
+    def play(self):
+        self.playerTurn(self.playerToPlay)
+        self.player1.computePearlPts()
+        self.player2.computePearlPts()
+        self.playerToPlay = self.player2
+
+    def onClick(self, player):
         if self.lordDeck.getRect().collidepoint(pygame.mouse.get_pos()):
             self.lordDeck.setIsClick(True)
             self.view.setChoiceNumber(True)
+        
         elif self.placeDeck.getRect().collidepoint(pygame.mouse.get_pos()):
             self.placeDeck.setIsClick(True)
         elif self.placePile.getRect().collidepoint(pygame.mouse.get_pos()):
@@ -160,13 +180,9 @@ class Game:
             if event.type == QUIT:
                 return 0
             elif event.type == MOUSEBUTTONDOWN:
-                self.initializeClick()
-                self.onClick()
                 if(not self.endParty):
-                    self.playerTurn(self.playerToPlay)
-                    self.player1.computePearlPts()
-                    self.player2.computePearlPts()
-                    self.playerToPlay = self.player2
+                    self.initializeClick(self.player1)
+                    self.onClick(self.player1)
             elif event.type is MOUSEBUTTONUP:
                 print("")
         return 1

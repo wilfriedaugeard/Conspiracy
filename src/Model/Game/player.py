@@ -5,6 +5,8 @@ class Player:
         self.name = name
         self.board = Board()
         self.pearlPts = 0
+        self.nbCardChosen = 0
+
 
     def computePearlPts(self):
         pts = 0
@@ -18,6 +20,9 @@ class Player:
         print(self.name)
         print("Pearl score:",self.pearlPts)
 
+    def setNbCardChosen(self, value):
+        self.nbCardChosen = value
+
     # Getters
     def getName(self):
         return self.name
@@ -25,3 +30,5 @@ class Player:
         return self.board
     def getPearlPts(self):
         return self.pearlPts
+    def getNbCardChosen(self):
+        return self.nbCardChosen
