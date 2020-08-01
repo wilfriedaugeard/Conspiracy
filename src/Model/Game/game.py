@@ -59,7 +59,6 @@ class Game:
         self.unlockPlace(player)
 
 
-
     def addCardsInPile(self, cards, pile):
         for c in cards:
             pile.addCard(c)
@@ -109,7 +108,15 @@ class Game:
             i += 1
         #board.display()
 
+    def initializeClick(self):
+        self.lordDeck.setIsClick(False)
 
+    def onClick(self):
+        if self.lordDeck.getRect().collidepoint(pygame.mouse.get_pos()):
+            print("LordDeck click")
+            self.lordDeck.setIsClick(True)
+        if self.placeDeck.getRect().collidepoint(pygame.mouse.get_pos()):
+            print("placeDeck click")
 
     def controllerTick(self):
         #Handle Input Events
@@ -117,6 +124,8 @@ class Game:
             if event.type == QUIT:
                 return 0
             elif event.type == MOUSEBUTTONDOWN:
+                self.initializeClick()
+                self.onClick()
                 if(not self.endParty):
                     if(self.playerToPlay == self.player1):
                         self.playerToPlay = self.player2
@@ -136,10 +145,11 @@ class Game:
         self.view.initializeOpponentScreen(self.player2)
         self.view.initializeBoard(5, 20, 10)
         self.view.initializePile(self.lordPile, self.placePile)
+        self.view.initializeDecks(self.lordDeck, self.placeDeck)
 
     def viewTick(self):
         self.initializeView()
-        self.view.displayDeck(self.lordDeck, self.placeDeck)  
+        self.view.displayDecks(self.lordDeck, self.placeDeck)  
         self.view.displayBoard(self.player1.getBoard().getDeck(), self.player2.getBoard().getDeck())
         self.view.displayPile(self.lordPile, self.placePile)
         self.view.drawInfoBox(self.player1, self.player2)

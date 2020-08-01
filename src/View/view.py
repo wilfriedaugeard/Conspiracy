@@ -150,6 +150,14 @@ class View:
     '''
     DECK
     '''
+
+    def initializeDecks(self, lordDeck, placeDeck):
+        lordSize = 150
+        placeHeight = int(lordSize/2)
+        lordDeck.initView(self.window, self.myfont2, self.spaceBorder, (self.height/2)-lordSize, lordSize, lordSize, self.defaultImageCard, pygame.image.load("assets/images/lordDeck.png").convert())
+        placeDeck.initView(self.window, self.myfont2, self.spaceBorder, (self.height/2)+10, lordSize, placeHeight, self.defaultImageCard, pygame.image.load("assets/images/lordDeck.png").convert())
+
+
     def drawDeck(self, deck, defaultImage, imageDeck, value, x, y, width, height):
         if(len(deck) == 0):
             image = pygame.transform.scale(defaultImage, (width,height))
@@ -157,17 +165,10 @@ class View:
             image = pygame.transform.scale(imageDeck, (width,height))
         self.drawCard(image, value, x, y, self.myfont2)
 
-    def displayDeck(self, lordDeck, placeDeck):
-        lordSize = 150
-        placeHeight = int(lordSize/2)
-    
-        valueLordDeck = "LordDeck (" +str(len(lordDeck.getDeck()))+")"
-        valuePlaceDeck = "PlaceDeck ("+str(len(placeDeck.getDeck()))+")"
-
-        self.drawDeck(lordDeck.getDeck(), self.defaultImageCard, pygame.image.load("assets/images/lordDeck.png").convert(), valueLordDeck, self.spaceBorder, (self.height/2)-lordSize, lordSize, lordSize)
-        self.drawDeck(placeDeck.getDeck(), self.defaultImageCard, pygame.image.load("assets/images/lordDeck.png").convert(), valuePlaceDeck, self.spaceBorder, (self.height/2)+10, lordSize, placeHeight)
-
-
+    def displayDecks(self, lordDeck, placeDeck):
+        lordDeck.display()
+        placeDeck.display()
+       
     '''
     PILE
     '''
