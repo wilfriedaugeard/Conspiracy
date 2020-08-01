@@ -113,13 +113,15 @@ class Game:
         self.placeDeck.setIsClick(False)
         for pile in self.lordPile.getPile():
             pile.setIsClick(False)
-
+        self.placePile.setIsClick(False)
 
     def onClick(self):
         if self.lordDeck.getRect().collidepoint(pygame.mouse.get_pos()):
             self.lordDeck.setIsClick(True)
         elif self.placeDeck.getRect().collidepoint(pygame.mouse.get_pos()):
             self.placeDeck.setIsClick(True)
+        elif self.placePile.getRect().collidepoint(pygame.mouse.get_pos()):
+            self.placePile.setIsClick(True)
         else:
             for pile in self.lordPile.getPile():
                 if(pile.getRect().collidepoint(pygame.mouse.get_pos())):

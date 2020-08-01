@@ -178,8 +178,9 @@ class View:
         #self.drawDeck(pile.getPile(), self.defaultImageCard, image, value, x, y, width, height)
 
     def displayPile(self, lordPile, placePile):
-       for pile in lordPile.getPile():
-           pile.display()
+        for pile in lordPile.getPile():
+            pile.display()
+        placePile.display()
             
     def initializePile(self, lordPile, placePile):
         lordSize = 100
@@ -197,8 +198,8 @@ class View:
 
         x = self.spaceBorder
         y = (self.height/2)+10+75+10
-
-        self.drawDeck(placePile.getPile(), self.defaultImageCard, self.defaultImageCard, "", x, y, lordSize, placeHeight)
+        placePile.initView(self.window, self.myfont2, x, y, lordSize, placeHeight, self.defaultImageCard, pygame.image.load("assets/images/lordDeck.png").convert())
+        
 
     '''
     OPPONENT BOX
