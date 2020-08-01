@@ -73,9 +73,9 @@ class PlaceDeck:
         self.rect = image.get_rect().move(x, y)
         if(self.isClick):
             border = 3
-            RED = (255, 0, 0) 
+            color = (242, 175, 19) 
             rect = Rect(x-border, y-border, image.get_width()+2*border, image.get_height()+2*border)
-            pygame.draw.rect(self.window, RED, rect)
+            pygame.draw.rect(self.window, color, rect)
         self.window.blit(image, (x, y))
         ### display the number (tempory)
         text = font.render(value, False, (0, 0, 0))
@@ -84,6 +84,7 @@ class PlaceDeck:
 
     def setIsClick(self, isClick):
         self.isClick = isClick
+        
 
     # Getters
     def getDeck(self):

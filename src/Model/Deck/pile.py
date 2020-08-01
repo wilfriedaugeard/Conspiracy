@@ -20,6 +20,8 @@ class Pile:
         self.height = None
         self.rect = None
 
+        self.transparent = False
+
     def addCard(self, card):
         self.pile.append(card)
 
@@ -40,22 +42,25 @@ class Pile:
 
 
     def display(self):
-
         valueDeck = "(" +str(len(self.pile))+")"
         if(len(self.pile) == 0):
-            image = pygame.transform.scale(self.defaultImage, (self.width, self.height))
             valueDeck = ""
+            image = pygame.transform.scale(self.defaultImage, (self.width, self.height))
         else:
             image = pygame.transform.scale(self.image, (self.width, self.height))
+            if(self.transparent):
+                image.set_alpha(90)
         self.drawCard(image, valueDeck, self.x, self.y, self.font)
 
     def drawCard(self, image, value, x,y, font):
         self.rect = image.get_rect().move(x, y)
         if(self.isClick and len(self.pile) != 0):
             border = 3
-            RED = (255, 0, 0) 
+            color = (242, 175, 19) 
             rect = Rect(x-border, y-border, image.get_width()+2*border, image.get_height()+2*border)
-            pygame.draw.rect(self.window, RED, rect)
+            pygame.draw.rect(self.window, color, rect)
+        if(self.transparent):
+            image.set_alpha(60)
         self.window.blit(image, (x, y))
         ### display the number (tempory)
         text = font.render(value, False, (0, 0, 0))
@@ -65,6 +70,8 @@ class Pile:
     def setIsClick(self, isClick):
         self.isClick = isClick
 
+    def setTransparent(self, value):
+        self.transparent = value
 
     # Getters
     def getPile(self):

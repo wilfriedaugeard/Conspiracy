@@ -127,6 +127,16 @@ class Game:
                 if(pile.getRect().collidepoint(pygame.mouse.get_pos())):
                     pile.setIsClick(True)
 
+
+    def hoverAvailableChoiceBeginTurn(self, player):
+        self.lordDeck.setIsClick(True)
+        for pile in self.lordPile.getPile():
+            if(len(pile.getPile())+player.getBoard().getPos() < 15):
+                pile.setIsClick(True)
+            else:
+                pile.setTransparent(True)
+
+
     def controllerTick(self):
         #Handle Input Events
         for event in pygame.event.get():
@@ -140,6 +150,8 @@ class Game:
                         self.playerToPlay = self.player2
                     else:
                         self.playerToPlay = self.player1
+                        self.hoverAvailableChoiceBeginTurn(self.player1)
+
                     self.playerTurn(self.playerToPlay)
                     self.player1.computePearlPts()
                     self.player2.computePearlPts()
