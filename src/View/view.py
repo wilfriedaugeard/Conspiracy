@@ -150,7 +150,6 @@ class View:
     '''
     DECK
     '''
-
     def initializeDecks(self, lordDeck, placeDeck):
         lordSize = 150
         placeHeight = int(lordSize/2)

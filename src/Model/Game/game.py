@@ -110,13 +110,14 @@ class Game:
 
     def initializeClick(self):
         self.lordDeck.setIsClick(False)
+        self.placeDeck.setIsClick(False)
+
 
     def onClick(self):
         if self.lordDeck.getRect().collidepoint(pygame.mouse.get_pos()):
-            print("LordDeck click")
             self.lordDeck.setIsClick(True)
         if self.placeDeck.getRect().collidepoint(pygame.mouse.get_pos()):
-            print("placeDeck click")
+            self.placeDeck.setIsClick(True)
 
     def controllerTick(self):
         #Handle Input Events
