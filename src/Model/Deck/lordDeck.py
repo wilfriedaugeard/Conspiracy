@@ -10,6 +10,8 @@ class LordDeck:
         self.createDeck()
 
         self.isClick = False
+        self.transparent = False
+
         # VIEW
         self.image = None
         self.defaultImage = None
@@ -51,17 +53,16 @@ class LordDeck:
 
     def display(self):
         valueLordDeck = "LordDeck (" +str(len(self.deck))+")"
-        if(len(self.deck) == 0):
-            image = pygame.transform.scale(self.defaultImage, (self.width, self.height))
-        else:
-            image = pygame.transform.scale(self.image, (self.width, self.height))
+        image = pygame.transform.scale(self.image, (self.width, self.height))
+        if(self.transparent):
+            image.set_alpha(60)
         self.drawCard(image, valueLordDeck, self.x, self.y, self.font)
 
     def drawCard(self, image, value, x,y, font):
         self.rect = image.get_rect().move(x, y)
         if(self.isClick):
             border = 3
-            color = (242, 175, 19)  
+            color = (241, 231, 209)#(242, 175, 19)  
             rect = Rect(x-border, y-border, image.get_width()+2*border, image.get_height()+2*border)
             pygame.draw.rect(self.window, color, rect)
         self.window.blit(image, (x, y))
@@ -73,6 +74,8 @@ class LordDeck:
 
     def setIsClick(self, isClick):
         self.isClick = isClick
+    def setTransparent(self, value):
+        self.transparent = value
 
     # Getters
     def getDeck(self):

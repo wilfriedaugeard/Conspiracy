@@ -253,13 +253,12 @@ class View:
         crownImage = pygame.transform.scale( pygame.image.load("assets/images/crown.png").convert_alpha(), (20, 20))
 
         if(player1.getPearlPts() > player2.getPearlPts()):
-                self.window.blit(crownImage, (X, yP1))
-                self.lastWinnerCrown = player1
+            self.window.blit(crownImage, (X, yP1))
+            self.lastWinnerCrown = player1
         
         if(player2.getPearlPts() > player1.getPearlPts()):
-            if(self.lastWinnerCrown == player1 or self.lastWinnerCrown == None):
-                self.window.blit(crownImage, (X, yP2))
-                self.lastWinnerCrown = player2
+            self.window.blit(crownImage, (X, yP2))
+            self.lastWinnerCrown = player2
 
         if(player1.getPearlPts() == player2.getPearlPts() and player1.getPearlPts() != 0):
             if(self.lastWinnerCrown == player1):

@@ -25,8 +25,17 @@ class Game:
         self.initializeView()
         while(self.controllerTick()!=0):
             while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
-                if(self.controllerTick() == 0):
-                    return
+                self.hoverAvailableChoiceBeginTurn(self.playerToPlay, self.player1)
+                if(not self.endParty and self.playerToPlay == self.player2):
+                    time.sleep(0.5)
+                    self.playerTurn(self.playerToPlay)
+                    self.player1.computePearlPts()
+                    self.player2.computePearlPts()
+                    self.playerToPlay = self.player1
+                    time.sleep(0.5)
+                else:
+                    if(self.controllerTick() == 0):
+                        return
                 self.viewTick()
             self.endParty = True
             
@@ -128,12 +137,18 @@ class Game:
                     pile.setIsClick(True)
 
 
-    def hoverAvailableChoiceBeginTurn(self, player):
-        self.lordDeck.setIsClick(True)
+    def hoverAvailableChoiceBeginTurn(self, playerTurn, player):
+        if(playerTurn == player):
+            if(len(self.lordDeck.getDeck()) > 0):
+                self.lordDeck.setIsClick(True)
+            for pile in self.lordPile.getPile():
+                if(len(pile.getPile())+player.getBoard().getPos()-1 < 15):
+                    pile.setIsClick(True)
+
+        if(len(self.lordDeck.getDeck()) == 0):
+            self.lordDeck.setTransparent(True)
         for pile in self.lordPile.getPile():
-            if(len(pile.getPile())+player.getBoard().getPos() < 15):
-                pile.setIsClick(True)
-            else:
+            if(not (len(pile.getPile())+player.getBoard().getPos()-1 < 15)):
                 pile.setTransparent(True)
 
 
@@ -146,15 +161,10 @@ class Game:
                 self.initializeClick()
                 self.onClick()
                 if(not self.endParty):
-                    if(self.playerToPlay == self.player1):
-                        self.playerToPlay = self.player2
-                    else:
-                        self.playerToPlay = self.player1
-                        self.hoverAvailableChoiceBeginTurn(self.player1)
-
                     self.playerTurn(self.playerToPlay)
                     self.player1.computePearlPts()
                     self.player2.computePearlPts()
+                    self.playerToPlay = self.player2
             elif event.type is MOUSEBUTTONUP:
                 print("")
         return 1

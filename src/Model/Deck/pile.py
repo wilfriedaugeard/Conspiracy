@@ -56,7 +56,7 @@ class Pile:
         self.rect = image.get_rect().move(x, y)
         if(self.isClick and len(self.pile) != 0):
             border = 3
-            color = (242, 175, 19) 
+            color = (241, 231, 209)
             rect = Rect(x-border, y-border, image.get_width()+2*border, image.get_height()+2*border)
             pygame.draw.rect(self.window, color, rect)
         if(self.transparent):
