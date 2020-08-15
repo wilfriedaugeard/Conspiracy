@@ -6,7 +6,8 @@
 [![GitHub commit](https://badgen.net/github/commits/wilfriedaugeard/Conspiracy/)](https://github.com/wilfriedaugeard/Conspiracy/commits) 
 [![GitHub last commit](https://img.shields.io/github/last-commit/wilfriedaugeard/Conspiracy)](https://github.com/wilfriedaugeard/Conspiracy/commits)
 
-
+Game made with [pygame](https://www.pygame.org/news).
+> This project is not finished. 
 
 ## License
 
