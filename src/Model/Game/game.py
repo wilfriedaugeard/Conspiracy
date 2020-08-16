@@ -1,12 +1,14 @@
-import pygame 
-from pygame.locals import *
 from Model.Game.player import Player
 from Model.Deck.lordDeck import LordDeck
 from Model.Deck.placeDeck import PlaceDeck
 from Model.Deck.lordPile import LordPile
 from Model.Deck.pile import Pile
-from Controller import Controller
+from Model import Deck
+
+from Controller.Controller import *
 from View.viewTools import *
+
+from Model.Game.placeTools import *
 import random, time
 
 class Game:
@@ -24,7 +26,7 @@ class Game:
 
     def playParty(self):
         initializeView(self)
-        while(self.controllerTick()!=0):
+        while(controllerTick(self)!=0):
             while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
                 self.hoverAvailableChoiceBeginTurn(self.playerToPlay, self.player1)
                 if(not self.endParty and self.playerToPlay == self.player2):
@@ -35,7 +37,7 @@ class Game:
                     self.playerToPlay = self.player1
                     time.sleep(0.5)
                 else:
-                    if(self.controllerTick() == 0):
+                    if(controllerTick(self) == 0):
                         return
                 viewTick(self)
             self.endParty = True
@@ -70,78 +72,13 @@ class Game:
         card.display()
         self.addCardsInPile(drawedCards, self.lordPile)
         # Check if a place is unlocked
-        self.unlockPlace(player)
+        unlockPlace(self, player)
 
 
     def addCardsInPile(self, cards, pile):
         for c in cards:
             pile.addCard(c)
 
-
-    def unlockPlace(self, player):
-        nbSilverKey = 0
-        nbGoldKey = 0
-        i = 0
-        # Check the last place
-        board = player.getBoard()
-        if(board.getPlaceCards() != []):
-            lastPlaceCard = board.getPlaceCards()[-1]
-            i = lastPlaceCard.getPos()
-            if(i<15):
-                i+=1
-        # Check keys after the last place
-        while(i < board.getPos()):
-            card = board.getDeck()[i]
-
-            if(card.getPower().getKey().value == 1):
-                nbSilverKey+=1
-            if(card.getPower().getKey().value == 2):
-                nbGoldKey+=1
-            # Unlock place
-            if(nbGoldKey > 1 or nbSilverKey > 1):
-                # Choose the deck to draw
-                if(len(self.placeDeck.getDeck()) < 3 and len(self.placePile.getPile()) > 2):
-                    drawedCards = self.drawCard(3, self.placePile.getPile())
-                elif(len(self.placeDeck.getDeck()) > 2 and len(self.placePile.getPile()) < 3):
-                    drawedCards = self.drawCard(3, self.placeDeck.getDeck())
-                else:
-                    if(bool(random.getrandbits(1))):
-                        drawedCards = self.drawCard(3, self.placeDeck.getDeck())
-                    else: 
-                        drawedCards = self.drawCard(3, self.placePile.getPile())
-                # Take randomly a place between 3 place cards
-                placeCard = random.choice(drawedCards)
-                drawedCards.remove(placeCard)
-                # Put rest in place pile
-                self.addCardsInPile(drawedCards, self.placePile)
-                # Set the place position 
-                placeCard.setPos(i)
-                board.addPlaceCard(placeCard)
-                nbSilverKey = 0
-                nbGoldKey = 0
-            i += 1
-        #board.display()
-
-    def initializeClick(self, player):
-        self.view.setFlood(False)
-        if self.view.getChoiceNb() and self.view.getOneRect().collidepoint(pygame.mouse.get_pos()):
-            player.setNbCardChosen(1)
-            self.view.setFlood(True)
-            self.play()
-        elif self.view.getChoiceNb() and self.view.getTwoRect().collidepoint(pygame.mouse.get_pos()):
-            player.setNbCardChosen(2)
-            self.view.setFlood(True)
-            self.play()
-        elif self.view.getChoiceNb() and self.view.getThreeRect().collidepoint(pygame.mouse.get_pos()):
-            player.setNbCardChosen(3)
-            self.view.setFlood(True)
-            self.play()
-        self.lordDeck.setIsClick(False)
-        self.view.setChoiceNumber(False)
-        self.placeDeck.setIsClick(False)
-        for pile in self.lordPile.getPile():
-            pile.setIsClick(False)
-        self.placePile.setIsClick(False)
 
     def play(self):
         self.playerTurn(self.playerToPlay)
@@ -182,19 +119,6 @@ class Game:
                 pile.setTransparent(True)
 
 
-    def controllerTick(self):
-        #Handle Input Events
-        for event in pygame.event.get():
-            if event.type == QUIT:
-                return 0
-            elif event.type == MOUSEBUTTONDOWN:
-                if(not self.endParty):
-                    self.initializeClick(self.player1)
-                    self.onClick(self.player1)
-            elif event.type is MOUSEBUTTONUP:
-                print("")
-        return 1
-
 
     # Getters
     def getView(self):
@@ -210,4 +134,6 @@ class Game:
     def getLordDeck(self):
         return self.lordDeck
     def getPlaceDeck(self):
-        return self.placeDeck    
+        return self.placeDeck 
+    def getEndParty(self):
+        return self.endParty   

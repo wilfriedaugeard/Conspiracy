@@ -1,17 +1,16 @@
 import pygame 
 from pygame.locals import *
+from Controller.Click import *
 
-def controllerTick():
+def controllerTick(game):
     #Handle Input Events
     for event in pygame.event.get():
         if event.type == QUIT:
             return 0
         elif event.type == MOUSEBUTTONDOWN:
-            print("click")
+            if(not game.getEndParty()):
+                initializeClick(game, game.getPlayer1())
+                onClick(game, game.getPlayer1())
         elif event.type is MOUSEBUTTONUP:
-            print("unclick")
+            print("")
     return 1
-
-
-def viewTick():
-    print("")
