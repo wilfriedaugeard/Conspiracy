@@ -38,6 +38,8 @@ class View:
         self.threeMiniBoxRect = None 
         self.showChoiceNumber = False
 
+        self.flood = False
+
     '''
     INIT VIEW
     '''
@@ -362,10 +364,20 @@ class View:
                 
 
 
+
+    def displayFlood(self):
+        if(self.flood):
+            image = pygame.transform.scale(self.defaultImageCard, (self.width, self.height))
+            image.set_alpha(200)
+            self.window.blit(image, (0, 0))
+    
+
     def setChoiceNumber(self, value):
         self.showChoiceNumber = value
 
 
+    def setFlood(self, value):
+        self.flood = value
 
 
 
@@ -384,3 +396,5 @@ class View:
         return self.threeMiniBoxRect
     def getChoiceNb(self):
         return self.showChoiceNumber
+    def getFlood(self):
+        return self.flood

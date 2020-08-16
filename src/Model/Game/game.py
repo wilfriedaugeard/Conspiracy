@@ -6,6 +6,7 @@ from Model.Deck.placeDeck import PlaceDeck
 from Model.Deck.lordPile import LordPile
 from Model.Deck.pile import Pile
 from Controller import Controller
+from View.viewTools import *
 import random, time
 
 class Game:
@@ -22,7 +23,7 @@ class Game:
         
 
     def playParty(self):
-        self.initializeView()
+        initializeView(self)
         while(self.controllerTick()!=0):
             while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
                 self.hoverAvailableChoiceBeginTurn(self.playerToPlay, self.player1)
@@ -36,7 +37,7 @@ class Game:
                 else:
                     if(self.controllerTick() == 0):
                         return
-                self.viewTick()
+                viewTick(self)
             self.endParty = True
             
 
@@ -122,14 +123,18 @@ class Game:
         #board.display()
 
     def initializeClick(self, player):
+        self.view.setFlood(False)
         if self.view.getChoiceNb() and self.view.getOneRect().collidepoint(pygame.mouse.get_pos()):
             player.setNbCardChosen(1)
+            self.view.setFlood(True)
             self.play()
         elif self.view.getChoiceNb() and self.view.getTwoRect().collidepoint(pygame.mouse.get_pos()):
             player.setNbCardChosen(2)
+            self.view.setFlood(True)
             self.play()
         elif self.view.getChoiceNb() and self.view.getThreeRect().collidepoint(pygame.mouse.get_pos()):
             player.setNbCardChosen(3)
+            self.view.setFlood(True)
             self.play()
         self.lordDeck.setIsClick(False)
         self.view.setChoiceNumber(False)
@@ -145,18 +150,21 @@ class Game:
         self.playerToPlay = self.player2
 
     def onClick(self, player):
-        if self.lordDeck.getRect().collidepoint(pygame.mouse.get_pos()):
-            self.lordDeck.setIsClick(True)
-            self.view.setChoiceNumber(True)
-        
-        elif self.placeDeck.getRect().collidepoint(pygame.mouse.get_pos()):
-            self.placeDeck.setIsClick(True)
-        elif self.placePile.getRect().collidepoint(pygame.mouse.get_pos()):
-            self.placePile.setIsClick(True)
+        if self.view.getFlood():
+            pass
         else:
-            for pile in self.lordPile.getPile():
-                if(pile.getRect().collidepoint(pygame.mouse.get_pos())):
-                    pile.setIsClick(True)
+            if self.lordDeck.getRect().collidepoint(pygame.mouse.get_pos()):
+                self.lordDeck.setIsClick(True)
+                self.view.setChoiceNumber(True)
+
+            elif self.placeDeck.getRect().collidepoint(pygame.mouse.get_pos()):
+                self.placeDeck.setIsClick(True)
+            elif self.placePile.getRect().collidepoint(pygame.mouse.get_pos()):
+                self.placePile.setIsClick(True)
+            else:
+                for pile in self.lordPile.getPile():
+                    if(pile.getRect().collidepoint(pygame.mouse.get_pos())):
+                        pile.setIsClick(True)
 
 
     def hoverAvailableChoiceBeginTurn(self, playerTurn, player):
@@ -188,19 +196,18 @@ class Game:
         return 1
 
 
-    def initializeView(self):
-        self.view.refreshBg()
-        self.view.displayTitle()
-        self.view.initializeOpponentScreen(self.player2)
-        self.view.initializeBoard(5, 20, 10)
-        self.view.initializePile(self.lordPile, self.placePile)
-        self.view.initializeDecks(self.lordDeck, self.placeDeck)
-        self.view.drawChoiceNumber(self.lordDeck)
-
-    def viewTick(self):
-        self.initializeView()
-        self.view.displayDecks(self.lordDeck, self.placeDeck)  
-        self.view.displayBoard(self.player1.getBoard().getDeck(), self.player2.getBoard().getDeck())
-        self.view.displayPile(self.lordPile, self.placePile)
-        self.view.drawInfoBox(self.player1, self.player2)
-        self.view.refresh()
+    # Getters
+    def getView(self):
+        return self.view
+    def getPlayer1(self):
+        return self.player1
+    def getPlayer2(self):
+        return self.player2
+    def getLordPile(self):
+        return self.lordPile
+    def getPlacePile(self):
+        return self.placePile
+    def getLordDeck(self):
+        return self.lordDeck
+    def getPlaceDeck(self):
+        return self.placeDeck    
