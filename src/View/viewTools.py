@@ -8,7 +8,7 @@ def initializeView(game):
     game.getView().initializePile(game.getLordPile(), game.getPlacePile())
     game.getView().initializeDecks(game.getLordDeck(), game.getPlaceDeck())
     game.getView().drawChoiceNumber(game.getLordDeck())
-    game.getView().displayFlood()
+    
 
 # Tick
 def viewTick(game):
@@ -17,4 +17,6 @@ def viewTick(game):
     game.getView().displayBoard(game.getPlayer1().getBoard().getDeck(), game.getPlayer2().getBoard().getDeck())
     game.getView().displayPile(game.getLordPile(), game.getPlacePile())
     game.getView().drawInfoBox(game.getPlayer1(),  game.getPlayer2())
+    game.getView().displayFlood()
+    game.getView().displayTokenCardsFromDeck(game.getChosenCards())
     game.getView().refresh()

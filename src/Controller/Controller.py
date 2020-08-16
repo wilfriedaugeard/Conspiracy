@@ -2,18 +2,24 @@ import pygame
 from pygame.locals import *
 from Controller.Click import *
 
+EXIT = 0
+CONTINUE = 1
+
 def controllerTick(game):
     #Handle Input Events
     for event in pygame.event.get():
         if event.type == QUIT:
-            return 0
+            return EXIT
         elif event.type == MOUSEBUTTONDOWN:
             if(not game.getEndParty()):
+                if(game.getWaiting()):
+                    onClick(game, game.getPlayer1())
+                    return
                 initializeClick(game, game.getPlayer1())
                 onClick(game, game.getPlayer1())
         elif event.type is MOUSEBUTTONUP:
             print("")
-    return 1
+    return CONTINUE
 
 
 # Set flags in order to show choice boxes around cards

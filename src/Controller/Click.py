@@ -24,7 +24,11 @@ def initializeClick(game, player):
 # Check collision on click and set click flags
 def onClick(game, player):
     if game.getView().getFlood():
-        pass
+        for card in game.getChosenCards():
+            if(card.getRect().collidepoint(pygame.mouse.get_pos())):
+                game.setWaiting(False)
+                initializeClick(game, player)
+                game.tmpPlay(game.getPlayer1(), game.getChosenCards(), card)
     else:
         if game.getLordDeck().getRect().collidepoint(pygame.mouse.get_pos()):
             game.getLordDeck().setIsClick(True)
@@ -39,7 +43,12 @@ def onClick(game, player):
                     pile.setIsClick(True)
                     
 def play(game):
+    game.setWaiting(True)
+    game.getView().setDisplayChoiceDeckCards(True)
     game.playerTurn(game.getPlayerToPlay())
+    if(game.getWaiting()):
+        return
     game.getPlayer1().computePearlPts()
     game.getPlayer2().computePearlPts()
     game.setPlayerToPlay(game.getPlayer2())
+    game.getView().setDisplayChoiceDeckCards(False)

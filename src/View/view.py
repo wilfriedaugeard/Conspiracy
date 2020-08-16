@@ -1,5 +1,7 @@
 import pygame
 from pygame.locals import *
+from View.cardView import drawTokenCardsFromDeck
+
 class View:
     
     def __init__(self, width, height, backgroundLocation):
@@ -16,7 +18,9 @@ class View:
         self.titleimage = pygame.image.load("assets/images/title.png").convert_alpha()
         self.defaultImageCard = pygame.image.load("assets/images/grey.jpg").convert()
         self.defaultImageCard = pygame.transform.scale(self.defaultImageCard, (150, 150))
-        self.defaultImageCard.set_alpha(40) 
+        self.defaultImageCard.set_alpha(40)
+
+        self.floodBackground = pygame.image.load("assets/images/flood.png").convert()
 
         self.silverKeyImage = pygame.image.load("assets/images/silverKey.png").convert_alpha()
         self.goldKeyImage = pygame.image.load("assets/images/goldKey.png").convert_alpha()
@@ -39,6 +43,7 @@ class View:
         self.showChoiceNumber = False
 
         self.flood = False
+        self.displayChoiceDeckCards = False
 
     '''
     INIT VIEW
@@ -94,6 +99,8 @@ class View:
         startY = self.spaceBorder+30
         self.computeCoordCardInBoard(image, value, pos, sizeCardWidth, sizeCardHeight, self.nbcardFirstLine, 0, startX, startY, self.minivspace, self.minihspace)
 
+    
+    
     '''
     BOARD
     '''
@@ -363,14 +370,17 @@ class View:
             self.window.blit(text, textRect)
                 
 
-
-
     def displayFlood(self):
         if(self.flood):
-            image = pygame.transform.scale(self.defaultImageCard, (self.width, self.height))
-            image.set_alpha(200)
+            image = pygame.transform.scale(self.floodBackground, (self.width, self.height))
+            image.set_alpha(150)
             self.window.blit(image, (0, 0))
-    
+
+    def displayTokenCardsFromDeck(self, cards):
+        if(self.displayChoiceDeckCards):
+            x = self.width/2
+            y = self.height/2
+            drawTokenCardsFromDeck(cards, self.window, x, y, self.myfont)
 
     def setChoiceNumber(self, value):
         self.showChoiceNumber = value
@@ -379,7 +389,8 @@ class View:
     def setFlood(self, value):
         self.flood = value
 
-
+    def setDisplayChoiceDeckCards(self,value):
+        self.displayChoiceDeckCards = value
 
     # Getters
     def getWindow(self):

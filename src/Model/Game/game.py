@@ -3,7 +3,7 @@ from Model.Deck.lordDeck import LordDeck
 from Model.Deck.placeDeck import PlaceDeck
 from Model.Deck.lordPile import LordPile
 from Model.Deck.pile import Pile
-from Model import Deck
+from Model.Card.lordCard import LordCard
 
 from Controller.Controller import *
 from View.viewTools import *
@@ -22,6 +22,8 @@ class Game:
         self.lordPile  = LordPile()
         self.placePile = Pile("assets/images/placeDeck.png")
         self.playerToPlay = self.player1
+        self.waiting = False
+        self.chosenCards = []
         
     # Organize and play a party
     def playParty(self):
@@ -48,10 +50,14 @@ class Game:
         cards = []
         if(nbCard > len(deck)):
             nbCard = len(deck)
+        self.chosenCards = []
         for i in range(nbCard):
             index = random.randrange(len(deck))
             card = deck[index]
-            cards.append(card)
+            
+            if(type(card) is LordCard):
+                cards.append(card)
+            self.chosenCards.append(card)
             deck.remove(card)
         return cards
 
@@ -64,24 +70,32 @@ class Game:
             nbCard = player.getNbCardChosen()
             print(nbCard)
         drawedCards = self.takeCard(nbCard, self.lordDeck.getDeck())
-        card = random.choice(drawedCards)
+        
+
+
+    def tmpPlay(self, player, drawedCards, chosenCard):
+        card = chosenCard
         drawedCards.remove(card)
         player.getBoard().addCard(card)
         card.display()
         self.addCardsInPile(drawedCards, self.lordPile)
         # Check if a place is unlocked
-        unlockPlace(self, player)
+        #unlockPlace(self, player)
+        self.chosenCards = []
 
     # Add a pack of cards to a pile
     def addCardsInPile(self, cards, pile):
         for c in cards:
             pile.addCard(c)
 
-    
 
     # Setters
     def setPlayerToPlay(self, player):
         self.playerToPlay = player
+    def setWaiting(self, wait):
+        self.waiting = wait
+    def setChosenCards(self, value):
+        self.chosenCards = value
 
     # Getters
     def getView(self):
@@ -102,3 +116,7 @@ class Game:
         return self.endParty   
     def getPlayerToPlay(self):
         return self.playerToPlay
+    def getWaiting(self):
+        return self.waiting
+    def getChosenCards(self):
+        return self.chosenCards

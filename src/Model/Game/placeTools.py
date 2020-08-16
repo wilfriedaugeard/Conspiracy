@@ -23,17 +23,17 @@ def unlockPlace(game, player):
             if(len(game.getPlaceDeck().getDeck()) < 3 and len(game.getPlacePile().getPile()) > 2):
                 drawedCards = game.drawCard(3, game.getPlacePile().getPile())
             elif(len(game.getPlaceDeck().getDeck()) > 2 and len(game.getPlacePile().getPile()) < 3):
-                drawedCards = game.drawCard(3, game.getPlaceDeck().getDeck())
+                drawedCards = game.takeCard(3, game.getPlaceDeck().getDeck())
             else:
                 if(bool(random.getrandbits(1))):
-                    drawedCards = game.drawCard(3, game.getPlaceDeck().getDeck())
+                    drawedCards = game.takeCard(3, game.getPlaceDeck().getDeck())
                 else: 
-                    drawedCards = game.drawCard(3, game.getPlacePile().getPile())
+                    drawedCards = game.takeCard(3, game.getPlacePile().getPile())
             # Take randomly a place between 3 place cards
             placeCard = random.choice(drawedCards)
             drawedCards.remove(placeCard)
             # Put rest in place pile
-            game.addCardsInPile(drawedCards, game.getPlacePile)
+            game.addCardsInPile(drawedCards, game.getPlacePile())
             # Set the place position 
             placeCard.setPos(i)
             board.addPlaceCard(placeCard)
