@@ -5,15 +5,15 @@ def initializeClick(game, player):
     if game.getView().getChoiceNb() and game.getView().getOneRect().collidepoint(pygame.mouse.get_pos()):
         player.setNbCardChosen(1)
         game.getView().setFlood(True)
-        game.play()
+        play(game)
     elif game.getView().getChoiceNb() and game.getView().getTwoRect().collidepoint(pygame.mouse.get_pos()):
         player.setNbCardChosen(2)
         game.getView().setFlood(True)
-        game.play()
+        play(game)
     elif game.getView().getChoiceNb() and game.getView().getThreeRect().collidepoint(pygame.mouse.get_pos()):
         player.setNbCardChosen(3)
         game.getView().setFlood(True)
-        game.play()
+        play(game)
     game.getLordDeck().setIsClick(False)
     game.getView().setChoiceNumber(False)
     game.getPlaceDeck().setIsClick(False)
@@ -37,3 +37,9 @@ def onClick(game, player):
             for pile in game.getLordPile().getPile():
                 if(pile.getRect().collidepoint(pygame.mouse.get_pos())):
                     pile.setIsClick(True)
+                    
+def play(game):
+    game.playerTurn(game.getPlayerToPlay())
+    game.getPlayer1().computePearlPts()
+    game.getPlayer2().computePearlPts()
+    game.setPlayerToPlay(game.getPlayer2())

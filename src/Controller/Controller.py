@@ -14,3 +14,18 @@ def controllerTick(game):
         elif event.type is MOUSEBUTTONUP:
             print("")
     return 1
+
+
+# Set flags in order to show choice boxes around cards
+def hoverAvailableChoiceBeginTurn(game, playerTurn, player):
+    if(playerTurn == player):
+        if(len(game.getLordDeck().getDeck()) > 0):
+            game.getLordDeck().setIsClick(True)
+        for pile in game.getLordPile().getPile():
+            if(len(pile.getPile())+player.getBoard().getPos()-1 < 15):
+                pile.setIsClick(True)
+    if(len(game.getLordDeck().getDeck()) == 0):
+        game.getLordDeck().setTransparent(True)
+    for pile in game.getLordPile().getPile():
+        if(not (len(pile.getPile())+player.getBoard().getPos()-1 < 15)):
+            pile.setTransparent(True)
