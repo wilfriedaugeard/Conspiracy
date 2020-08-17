@@ -14,7 +14,7 @@ def controllerTick(game):
             if(not game.getEndParty()):
                 if(game.getWaiting()):
                     onClick(game, game.getPlayer1())
-                    return
+                    return CONTINUE
                 initializeClick(game, game.getPlayer1())
                 onClick(game, game.getPlayer1())
         elif event.type is MOUSEBUTTONUP:

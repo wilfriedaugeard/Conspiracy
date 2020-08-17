@@ -34,9 +34,9 @@ class Game:
                 if(not self.endParty and self.playerToPlay == self.player2):
                     time.sleep(0.5)
                     self.playerTurn(self.playerToPlay)
+                    self.tmpPlayIA(self.chosenCards)
                     self.player1.computePearlPts()
                     self.player2.computePearlPts()
-                    self.playerToPlay = self.player1
                     time.sleep(0.5)
                 else:
                     if(controllerTick(self) == 0):
@@ -69,8 +69,22 @@ class Game:
         else:
             nbCard = player.getNbCardChosen()
             print(nbCard)
-        drawedCards = self.takeCard(nbCard, self.lordDeck.getDeck())
+        self.takeCard(nbCard, self.lordDeck.getDeck())
+        if(player == self.player2):
+            print("IA turn")
         
+
+    def tmpPlayIA(self, drawedCards):
+        card = random.choice(drawedCards)
+        drawedCards.remove(card)
+        self.player2.getBoard().addCard(card)
+        card.display()
+        self.addCardsInPile(drawedCards, self.lordPile)
+        # Check if a place is unlocked
+        #unlockPlace(self, player)
+        self.chosenCards = []
+        self.switchPlayer()
+
 
 
     def tmpPlay(self, player, drawedCards, chosenCard):
@@ -82,6 +96,14 @@ class Game:
         # Check if a place is unlocked
         #unlockPlace(self, player)
         self.chosenCards = []
+        self.switchPlayer()
+    
+
+    def switchPlayer(self):
+        if(self.playerToPlay == self.player1):
+            self.setPlayerToPlay(self.player2)
+        else:
+            self.setPlayerToPlay(self.player1)
 
     # Add a pack of cards to a pile
     def addCardsInPile(self, cards, pile):
