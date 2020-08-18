@@ -3,6 +3,7 @@ from pygame.locals import *
 from View.cardView import drawTokenCardsFromDeck
 from moviepy.editor import VideoFileClip 
 from View.mainMenu import mainMenu
+from View.pileView import pileView
 class View:
     
     def __init__(self, width, height, backgroundLocation):
@@ -49,6 +50,7 @@ class View:
         self.clip = VideoFileClip('assets/videos/animation2Dshort.mp4') 
 
         self.mainMenu = mainMenu(self, 100, 50)
+        self.pileView = pileView(self)
          
 
     '''
@@ -221,33 +223,11 @@ class View:
     '''
     PILE
     '''
-    def drawPileInPiles(self, pile, width, height, pos, x, ystart, value):
-        y = ystart+((height+10)*pos)
-        image = pile.getImage()
-        pile.initView(self.window, self.myfont2, x, y, width, height, self.defaultImageCard, image)
-
     def displayPile(self, lordPile, placePile):
-        for pile in lordPile.getPile():
-            pile.display()
-        placePile.display()
+        self.pileView.displayPile(lordPile, placePile)
             
     def initializePile(self, lordPile, placePile):
-        lordSize = 100
-        placeHeight = int(lordSize/2)
-
-        pilesArray = lordPile.getPile()
-        nb = len(pilesArray)
-        ydep = (nb*lordSize) + (nb-1)*10
-        ydep /= 2
-        ydep = self.height/2 - ydep
-        x = self.width - lordSize - self.spaceBorder
-
-        for i in range(len(pilesArray)):
-            self.drawPileInPiles(pilesArray[i], lordSize, lordSize, i, x, ydep, "")
-
-        x = self.spaceBorder
-        y = (self.height/2)+10+75+10
-        placePile.initView(self.window, self.myfont2, x, y, lordSize, placeHeight, self.defaultImageCard, pygame.image.load("assets/images/lordDeck.png").convert())
+        self.pileView.initializePile(lordPile, placePile)
         
 
     '''
@@ -432,6 +412,8 @@ class View:
         return self.flood
     def getTitleImage(self):
         return self.titleimage
+    def getDefaultImageCard(self):
+        return self.defaultImageCard
     def getMyfont2(self):
         return self.myfont2
 

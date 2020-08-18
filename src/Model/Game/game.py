@@ -34,6 +34,7 @@ class Game:
 
     def mainMenu(self):
         self.view.launchMenu()
+        
 
     def playParty(self):
         initializeView(self)
