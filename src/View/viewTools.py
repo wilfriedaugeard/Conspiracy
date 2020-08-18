@@ -2,7 +2,7 @@
 # View initialization
 def initializeView(game):
     game.getView().refreshBg()
-    game.getView().displayTitle()
+    game.getView().displayTitle(game.getView().getTitleImage())
     game.getView().initializeOpponentScreen(game.getPlayer2())
     game.getView().initializeBoard(5, 20, 10)
     game.getView().initializePile(game.getLordPile(), game.getPlacePile())

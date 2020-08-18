@@ -46,6 +46,7 @@ def play(game):
     game.setWaiting(True)
     game.getView().setDisplayChoiceDeckCards(True)
     game.playerTurn(game.getPlayerToPlay())
+
     if(game.getWaiting()):
         return
     game.getPlayer1().computePearlPts()

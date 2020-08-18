@@ -26,6 +26,15 @@ class Game:
         self.chosenCards = []
         
     # Organize and play a party
+
+    def loadAnimation(self):
+        self.view.loadAnimation()
+        return controllerTick(self)
+
+
+    def mainMenu(self):
+        self.view.launchMenu()
+
     def playParty(self):
         initializeView(self)
         while(controllerTick(self)!=0):

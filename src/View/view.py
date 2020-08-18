@@ -1,7 +1,8 @@
-import pygame
+import pygame, time
 from pygame.locals import *
 from View.cardView import drawTokenCardsFromDeck
-
+from moviepy.editor import VideoFileClip 
+from View.mainMenu import mainMenu
 class View:
     
     def __init__(self, width, height, backgroundLocation):
@@ -13,7 +14,7 @@ class View:
         self.myfont2 = pygame.font.SysFont('nanumsquareround', 20)
         
         self.window = self.createWindow(self.width, self.height)
-        self.background = self.setBackground(backgroundLocation)
+        self.background = None
         
         self.titleimage = pygame.image.load("assets/images/title.png").convert_alpha()
         self.defaultImageCard = pygame.image.load("assets/images/grey.jpg").convert()
@@ -45,6 +46,11 @@ class View:
         self.flood = False
         self.displayChoiceDeckCards = False
 
+        self.clip = VideoFileClip('assets/videos/animation2Dshort.mp4') 
+
+        self.mainMenu = mainMenu(self, 100, 50)
+         
+
     '''
     INIT VIEW
     '''
@@ -56,12 +62,25 @@ class View:
         self.window.blit(bg, (0,0))
         return bg
 
-    def displayTitle(self):
+    def displayTitle(self, titleImage):
         coeff = 0.8
         width = int(640*coeff)
         height = int(100*coeff)
-        image = pygame.transform.scale(self.titleimage, (width, height))
+        image = pygame.transform.scale(titleImage, (width, height))
         self.window.blit(image, ((self.width/2)-width/2,self.spaceBorder))
+
+
+    def loadAnimation(self):
+        self.clip = self.clip.resize(width=self.width)
+        self.clip.preview()
+
+    def loadGame(self):
+        self.background = self.setBackground(self.backgroundLocation)
+
+
+    def launchMenu(self):
+        self.mainMenu.launch()
+
 
 
     '''
@@ -399,6 +418,8 @@ class View:
         return self.width
     def getHeight(self):
         return self.height
+    def getSpaceBorder(self):
+        return self.spaceBorder
     def getOneRect(self):
         return self.oneMiniBoxRect
     def getTwoRect(self):
@@ -409,3 +430,10 @@ class View:
         return self.showChoiceNumber
     def getFlood(self):
         return self.flood
+    def getTitleImage(self):
+        return self.titleimage
+    def getMyfont2(self):
+        return self.myfont2
+
+    def clean(self):
+        pygame.quit()
