@@ -416,6 +416,9 @@ class View:
         return self.defaultImageCard
     def getMyfont2(self):
         return self.myfont2
+    def getMainMenu(self):
+        return self.mainMenu
+
 
     def clean(self):
         pygame.quit()

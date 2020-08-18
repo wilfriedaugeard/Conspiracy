@@ -34,6 +34,8 @@ class Game:
 
     def mainMenu(self):
         self.view.launchMenu()
+        while(controllerTickMainMenu(self) != 0):
+            pass
         
 
     def playParty(self):

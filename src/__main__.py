@@ -14,8 +14,8 @@ def launchGame():
         return 
     
     game.mainMenu()
-    time.sleep(2)
-    game.playParty()
+    #time.sleep(2)
+    #game.playParty()
     
 
 def launchVideo():

@@ -41,7 +41,13 @@ def onClick(game, player):
             for pile in game.getLordPile().getPile():
                 if(pile.getRect().collidepoint(pygame.mouse.get_pos())):
                     pile.setIsClick(True)
-                    
+
+
+
+def mainMenuClick(game):
+    if(game.getView().getMainMenu().getRectPlayButton().collidepoint(pygame.mouse.get_pos())):
+        game.playParty()
+
 def play(game):
     game.setWaiting(True)
     game.getView().setDisplayChoiceDeckCards(True)

@@ -21,6 +21,16 @@ def controllerTick(game):
             print("")
     return CONTINUE
 
+def controllerTickMainMenu(game):
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            return EXIT
+        elif event.type == MOUSEBUTTONDOWN:
+            mainMenuClick(game)
+        elif event.type is MOUSEBUTTONUP:
+            print("")
+    return CONTINUE
+
 
 # Set flags in order to show choice boxes around cards
 def hoverAvailableChoiceBeginTurn(game, playerTurn, player):

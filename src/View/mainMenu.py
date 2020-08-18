@@ -16,6 +16,7 @@ class mainMenu:
         self.btnWidth = btnWidth
         self.btnHeight = btnHeight
         self.playButton =  pygame.transform.scale(self.buttonBackground, (self.btnWidth, self.btnHeight))
+        self.rectPlayButton = self.playButton.get_rect()
 
 
 
@@ -27,8 +28,15 @@ class mainMenu:
             self.view.displayTitle(imageResized)
 
             self.playButton.set_alpha(int(255*i/100))
-            self.view.drawCard(self.playButton, "PLAY", self.width/2 - self.btnWidth/2, self.height/2 - self.btnHeight/2, self.view.getMyfont2())
 
+            x = self.width/2 - self.btnWidth/2
+            y = self.height/2 - self.btnHeight/2
+
+            self.view.drawCard(self.playButton, "PLAY", x, y, self.view.getMyfont2())
+            self.rectPlayButton = self.playButton.get_rect().move(x, y)
             self.view.refresh()
             time.sleep(0.01)
             i+=1
+        
+    def getRectPlayButton(self):
+        return self.rectPlayButton
