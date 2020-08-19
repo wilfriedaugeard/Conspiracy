@@ -12,7 +12,7 @@ class gameController:
     def __init__(self, view):
         self.view = view
         self.game = Game(view)
-        self.screenDict = dict(mainMenu = False, playParty = False)
+        self.screenDict = dict(mainMenu = False, playParty = False, chooseACard = False)
 
     # Controller Tick
     def controllerTick(self):
@@ -34,19 +34,24 @@ class gameController:
             return mainMenuClick(game, self)
         elif screen == 'playParty':
             self.playTick()
+        elif screen == 'chooseACard':
+            self.chooseACardTick()
         else:
             print("")
+
+    def chooseACardTick(self):
+        chooseACardClick(self.game, self)
 
     # Actions on click
     def playTick(self):
         game = self.game
         if(not game.getEndParty()):
-            if(game.getWaiting()):
-                onClick(game, game.getPlayer1())
-                viewTick(game)
-                return CONTINUE
-            initializeClick(game, game.getPlayer1())
+            initializeClick(game, game.getPlayer1(), self)
             onClick(game, game.getPlayer1())
+            
+
+    def viewTick(self):
+        viewTick(self.game)
 
     # Return the actual user screen
     def getScreen(self):
@@ -83,7 +88,7 @@ class gameController:
                 game.tmpPlayIA(game.chosenCards)
                 game.getPlayer1().computePearlPts()
                 game.getPlayer2().computePearlPts()
-            viewTick(game)
+            self.viewTick()
         game.setEndParty(True)
 
     # Active only on flag in the hashmap
