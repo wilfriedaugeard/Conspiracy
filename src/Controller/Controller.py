@@ -43,6 +43,7 @@ class gameController:
         if(not game.getEndParty()):
             if(game.getWaiting()):
                 onClick(game, game.getPlayer1())
+                viewTick(game)
                 return CONTINUE
             initializeClick(game, game.getPlayer1())
             onClick(game, game.getPlayer1())
@@ -82,7 +83,6 @@ class gameController:
                 game.tmpPlayIA(game.chosenCards)
                 game.getPlayer1().computePearlPts()
                 game.getPlayer2().computePearlPts()
-                time.sleep(0.5)
             viewTick(game)
         game.setEndParty(True)
 
