@@ -5,7 +5,6 @@ from Model.Deck.lordPile import LordPile
 from Model.Deck.pile import Pile
 from Model.Card.lordCard import LordCard
 
-from Controller.Controller import *
 from View.viewTools import *
 
 from Model.Game.placeTools import *
@@ -25,37 +24,6 @@ class Game:
         self.waiting = False
         self.chosenCards = []
         
-    # Organize and play a party
-
-    def loadAnimation(self):
-        self.view.loadAnimation()
-        return controllerTick(self)
-
-
-    def mainMenu(self):
-        self.view.launchMenu()
-        while(controllerTickMainMenu(self) != 0):
-            pass
-        
-
-    def playParty(self):
-        initializeView(self)
-        while(controllerTick(self)!=0):
-            while(self.player1.getBoard().getPos() < 15 and self.player2.getBoard().getPos() < 15):
-                hoverAvailableChoiceBeginTurn(self, self.playerToPlay, self.player1)
-                if(not self.endParty and self.playerToPlay == self.player2):
-                    time.sleep(0.5)
-                    self.playerTurn(self.playerToPlay)
-                    self.tmpPlayIA(self.chosenCards)
-                    self.player1.computePearlPts()
-                    self.player2.computePearlPts()
-                    time.sleep(0.5)
-                else:
-                    if(controllerTick(self) == 0):
-                        return
-                viewTick(self)
-            self.endParty = True
-            
 
     # Take randomly nb cards from the deck
     def takeCard(self, nbCard, deck):
@@ -130,6 +98,8 @@ class Game:
         self.waiting = wait
     def setChosenCards(self, value):
         self.chosenCards = value
+    def setEndParty(self, value):
+        self.endParty = value
 
     # Getters
     def getView(self):

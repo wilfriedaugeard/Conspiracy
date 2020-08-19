@@ -44,9 +44,9 @@ def onClick(game, player):
 
 
 
-def mainMenuClick(game):
+def mainMenuClick(game, controller):
     if(game.getView().getMainMenu().getRectPlayButton().collidepoint(pygame.mouse.get_pos())):
-        game.playParty()
+        return controller.playParty()
 
 def play(game):
     game.setWaiting(True)
