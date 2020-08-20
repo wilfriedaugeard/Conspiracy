@@ -80,4 +80,6 @@ class Pile:
         return self.image
     def getRect(self):
         return self.rect
+    def getTransparent(self):
+        return self.transparent
 

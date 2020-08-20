@@ -23,6 +23,7 @@ class Game:
         self.playerToPlay = self.player1
         self.waiting = False
         self.chosenCards = []
+        self.pileChosen = None
         
 
     # Take randomly nb cards from the deck
@@ -66,6 +67,14 @@ class Game:
         self.switchPlayer()
 
 
+    def addPileCardOnDeck(self, player):
+        for card in self.pileChosen.getPile():
+            player.getBoard().addCard(card)
+            card.display()
+        self.pileChosen.getPile().clear()
+        self.pileChosen = None
+        self.chosenCards = []
+        self.switchPlayer()
 
     def tmpPlay(self, player, drawedCards, chosenCard):
         card = chosenCard
@@ -100,6 +109,8 @@ class Game:
         self.chosenCards = value
     def setEndParty(self, value):
         self.endParty = value
+    def setPileChosen(self, pile):
+        self.pileChosen = pile
 
     # Getters
     def getView(self):

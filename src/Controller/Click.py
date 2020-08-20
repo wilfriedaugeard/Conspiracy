@@ -22,7 +22,7 @@ def initializeClick(game, player, controller):
     game.getPlacePile().setIsClick(False)
 
 # Check collision on click and set click flags
-def onClick(game, player):
+def onClick(game, player, controller):
     if game.getLordDeck().getRect().collidepoint(pygame.mouse.get_pos()):
         game.getLordDeck().setIsClick(True)
         game.getView().setChoiceNumber(True)
@@ -32,14 +32,20 @@ def onClick(game, player):
         game.getPlacePile().setIsClick(True)
     else:
         for pile in game.getLordPile().getPile():
-            if(pile.getRect().collidepoint(pygame.mouse.get_pos())):
+            if(not pile.getTransparent() and pile.getRect().collidepoint(pygame.mouse.get_pos())):
+                player.setNbCardChosen(len(pile.getPile()))
+                game.setPileChosen(pile)
+                game.setChosenCards(pile.getPile())
                 pile.setIsClick(True)
+                game.getView().setFlood(True)
+                clickPile(game, controller)
 
 
-
+# Main menu click event
 def mainMenuClick(game, controller):
     if(game.getView().getMainMenu().getRectPlayButton().collidepoint(pygame.mouse.get_pos())):
         return controller.playParty()
+
 
 def chooseACardClick(game, controller):
     for card in game.getChosenCards():
@@ -48,7 +54,22 @@ def chooseACardClick(game, controller):
             initializeClick(game, game.getPlayerToPlay(), controller)
             game.tmpPlay(game.getPlayer1(), game.getChosenCards(), card)
             controller.viewTick()
-          
+
+def lordPileClick(game, controller):
+    for card in game.getChosenCards():
+        if(card.getRect().collidepoint(pygame.mouse.get_pos())):
+            game.addPileCardOnDeck(game.getPlayerToPlay())
+        controller.activateFlagScreen('playParty')
+        initializeClick(game, game.getPlayerToPlay(), controller)
+        game.getView().setDisplayChoiceDeckCards(False)
+        controller.viewTick()
+
+
+
+def clickPile(game, controller):
+    controller.activateFlagScreen('lordPile')
+    game.getView().setDisplayChoiceDeckCards(True)
+
 
 def play(game, controller):
     controller.activateFlagScreen('chooseACard')
