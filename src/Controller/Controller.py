@@ -96,8 +96,25 @@ class gameController:
                 game.getPlayer2().computePearlPts()
             self.viewTick()
         game.setEndParty(True)
+        if(game.getPlayer1().getBoard().getPos() < 15):
+            self.completeBoard(game.getPlayer1())
+        else:
+            self.completeBoard(game.getPlayer2())
 
+   
+    def completeBoard(self, player):
+        player.setNbCardChosen(1)
+        while(player.getBoard().getPos() < 15):
+            time.sleep(0.5)
+            self.forcedPlay(player)
+            self.viewTick()
+            self.game.getPlayer1().computePearlPts()
+            self.game.getPlayer2().computePearlPts()
 
+    def forcedPlay(self, player):
+        self.game.playerTurn(player)
+        self.game.tmpPlay(player, self.game.getChosenCards(), self.game.getChosenCards()[0])
+       
 
     # Active only on flag in the hashmap
     def activateFlagScreen(self, flag):

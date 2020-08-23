@@ -53,6 +53,7 @@ def chooseACardClick(game, controller):
             controller.activateFlagScreen('playParty')
             initializeClick(game, game.getPlayerToPlay(), controller)
             game.tmpPlay(game.getPlayer1(), game.getChosenCards(), card)
+            game.getPlayerToPlay().setNbCardChosen(0)
             controller.viewTick()
 
 def lordPileClick(game, controller):
