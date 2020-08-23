@@ -12,7 +12,7 @@ class gameController:
     def __init__(self, view):
         self.view = view
         self.game = Game(view)
-        self.screenDict = dict(mainMenu = False, playParty = False, chooseACard = False, lordPile = False)
+        self.screenDict = dict(animation = False, mainMenu = False, playParty = False, chooseACard = False, lordPile = False)
 
     # Controller Tick
     def controllerTick(self):
@@ -67,7 +67,8 @@ class gameController:
 
     # Load animation at the begin of the game and load game
     def run(self):
-        self.view.loadAnimation()
+        if(self.view.loadAnimation() == []):
+            return EXIT
         self.loadGame()
         
 

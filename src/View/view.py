@@ -74,7 +74,7 @@ class View:
 
     def loadAnimation(self):
         self.clip = self.clip.resize(width=self.width)
-        self.clip.preview()
+        return self.clip.preview()
 
     def loadGame(self):
         self.background = self.setBackground(self.backgroundLocation)
