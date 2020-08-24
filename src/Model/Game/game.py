@@ -87,7 +87,7 @@ class Game:
         self.chosenCards = []
         self.switchPlayer()
     
-
+    # Switch player to play
     def switchPlayer(self):
         if(self.playerToPlay == self.player1):
             self.setPlayerToPlay(self.player2)

@@ -41,9 +41,11 @@ class gameController:
         else:
             print("")
 
+    # Tick to choose a card 
     def chooseACardTick(self):
         chooseACardClick(self.game, self)
 
+    # Event lordpile click
     def lordPileClick(self):
         lordPileClick(self.game, self)
 
@@ -54,7 +56,7 @@ class gameController:
             initializeClick(game, game.getPlayer1(), self)
             onClick(game, game.getPlayer1(), self)
             
-
+    # View tick: call to actualize view
     def viewTick(self):
         viewTick(self.game)
 
@@ -101,7 +103,7 @@ class gameController:
         else:
             self.completeBoard(game.getPlayer2())
 
-   
+   # Compete the player board from deck cards
     def completeBoard(self, player):
         player.setNbCardChosen(1)
         while(player.getBoard().getPos() < 15):
@@ -111,6 +113,7 @@ class gameController:
             self.game.getPlayer1().computePearlPts()
             self.game.getPlayer2().computePearlPts()
 
+    # Force player to take a card from lord deck
     def forcedPlay(self, player):
         self.game.playerTurn(player)
         self.game.tmpPlay(player, self.game.getChosenCards(), self.game.getChosenCards()[0])

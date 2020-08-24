@@ -46,7 +46,7 @@ def mainMenuClick(game, controller):
     if(game.getView().getMainMenu().getRectPlayButton().collidepoint(pygame.mouse.get_pos())):
         return controller.playParty()
 
-
+# Choose a card click event
 def chooseACardClick(game, controller):
     for card in game.getChosenCards():
         if(card.getRect().collidepoint(pygame.mouse.get_pos())):
@@ -56,6 +56,7 @@ def chooseACardClick(game, controller):
             game.getPlayerToPlay().setNbCardChosen(0)
             controller.viewTick()
 
+# Lord pile click event
 def lordPileClick(game, controller):
     for card in game.getChosenCards():
         if(card.getRect().collidepoint(pygame.mouse.get_pos())):
@@ -66,12 +67,12 @@ def lordPileClick(game, controller):
         controller.viewTick()
 
 
-
+# Active lordpile flag and display cards view
 def clickPile(game, controller):
     controller.activateFlagScreen('lordPile')
     game.getView().setDisplayChoiceDeckCards(True)
 
-
+# Active choose card flag and run a player turn
 def play(game, controller):
     controller.activateFlagScreen('chooseACard')
     game.getView().setDisplayChoiceDeckCards(True)
