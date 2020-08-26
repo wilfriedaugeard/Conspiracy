@@ -71,7 +71,9 @@ class View:
         image = pygame.transform.scale(titleImage, (width, height))
         self.window.blit(image, ((self.width/2)-width/2,self.spaceBorder))
 
-
+    '''
+    Loading
+    '''
     def loadAnimation(self):
         self.clip = self.clip.resize(width=self.width)
         return self.clip.preview()
@@ -419,6 +421,6 @@ class View:
     def getMainMenu(self):
         return self.mainMenu
 
-
+    # clean view 
     def clean(self):
         pygame.quit()
