@@ -54,7 +54,7 @@ class Game:
         if(player == self.player2):
             print("IA turn")
         
-
+    # IA end turn
     def tmpPlayIA(self, drawedCards):
         card = random.choice(drawedCards)
         drawedCards.remove(card)
@@ -67,6 +67,7 @@ class Game:
         self.switchPlayer()
 
 
+    # Add all cards from a pile to a player deck
     def addPileCardOnDeck(self, player):
         for card in self.pileChosen.getPile():
             player.getBoard().addCard(card)
@@ -76,6 +77,7 @@ class Game:
         self.chosenCards = []
         self.switchPlayer()
 
+    # Player end turn
     def tmpPlay(self, player, drawedCards, chosenCard):
         card = chosenCard
         drawedCards.remove(card)
