@@ -1,4 +1,7 @@
 import random
+'''
+Check all keys on the player board to unlock a place card
+'''
 def unlockPlace(game, player):
     nbSilverKey = 0
     nbGoldKey = 0

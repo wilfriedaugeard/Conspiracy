@@ -10,6 +10,9 @@ from View.viewTools import *
 from Model.Game.placeTools import *
 import random, time
 
+'''
+Class Game: Setting game piles and decks with players. Manages turns
+'''
 class Game:
     def __init__(self, view):
         self.view = view
