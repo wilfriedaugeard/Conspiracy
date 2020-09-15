@@ -6,6 +6,7 @@
 [![GitHub commit](https://badgen.net/github/commits/wilfriedaugeard/Conspiracy/)](https://github.com/wilfriedaugeard/Conspiracy/commits) 
 [![GitHub last commit](https://img.shields.io/github/last-commit/wilfriedaugeard/Conspiracy)](https://github.com/wilfriedaugeard/Conspiracy/commits)
 
+Inspired by the board game, Conspiracy is a strategy game where the goal is to bribe as many politicians as possible. </br>
 Game made with [pygame](https://www.pygame.org/news).
 > This project is not finished. 
 
